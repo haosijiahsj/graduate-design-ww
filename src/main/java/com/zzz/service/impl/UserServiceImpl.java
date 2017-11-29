@@ -60,7 +60,9 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAll();
 
         if (CollectionUtils.isNotEmpty(users)) {
-            return Lists.transform(users, User::getId);
+            return users.stream()
+                    .map(User::getId)
+                    .collect(Collectors.toList());
         }
 
         return Collections.emptyList();

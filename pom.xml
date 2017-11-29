@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zzz</groupId>
-    <artifactId>spring-data-jpa-template</artifactId>
+    <artifactId>graduate-design</artifactId>
     <version>1.0-RELEASE</version>
 
     <parent>
