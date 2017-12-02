@@ -53,6 +53,7 @@ public class RoomServiceImpl implements RoomService {
 
         return PageResult.<RoomVo>builder()
                 .curPage(poPage.getNumber() + 1)
+                .size(poPage.getSize())
                 .totalPages(poPage.getTotalPages())
                 .totalElements(poPage.getTotalElements())
                 .content(roomVos)

@@ -20,6 +20,7 @@ public class PageResult<T> implements Serializable {
     private static final long serialVersionUID = -2101017243893880821L;
 
     private int curPage;
+    private int size;
     private int totalPages;
     private long totalElements;
     private List<T> content;
