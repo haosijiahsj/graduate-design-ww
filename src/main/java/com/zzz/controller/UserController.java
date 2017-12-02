@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by hushengjun on 2017/9/14.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/graduate-design/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login/{username}/{password}")
-    public ResponseEntity login(@PathVariable("username") String username, @PathVariable("password") String password) {
+    @GetMapping("/login")
+    public ResponseEntity login(String username, String password) {
         UserVo userVo = userService.findUserByUsernameAndPassword(username, password);
         ResponseEntity responseEntity = new ResponseEntity();
 
