@@ -1,5 +1,6 @@
 package com.zzz.controller;
 
+import com.zzz.enums.RoomType;
 import com.zzz.service.RoomService;
 import com.zzz.support.ResponseEntity;
 import com.zzz.support.ResponseStatus;
@@ -10,6 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * Created by 胡胜钧 on 12/2 0002.
  */
@@ -19,6 +25,13 @@ public class RoomController {
 
     @Autowired
     private RoomService roomService;
+
+    @GetMapping("/roomType")
+    public List<String> getRoomType() {
+        return Arrays.stream(RoomType.values())
+                .map(RoomType::getName)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping("/findAllRoom")
     public ResponseEntity findAllRoom(Integer page, Integer size) {
