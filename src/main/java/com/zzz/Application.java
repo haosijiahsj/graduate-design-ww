@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by hushengjun on 2017/9/14.
  * app
  */
-@EntityScan({"com.zzz.domain"})
-@EnableJpaRepositories({"com.zzz.dao"})
-@EnableTransactionManagement
 @Configuration
+@EntityScan("com.zzz.model.po")
+@EnableJpaRepositories("com.zzz.dao")
+@EnableTransactionManagement
 @EnableAutoConfiguration
-@ImportResource({"classpath:config/applicationContext.xml"})
+@ImportResource("classpath:config/applicationContext.xml")
 public class Application implements EmbeddedServletContainerCustomizer {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -35,7 +35,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        logger.info("The Application of zzz-sample Started Successfully...");
+        logger.info("The Application of graduate-design-ww Started Successfully...");
     }
 
 }

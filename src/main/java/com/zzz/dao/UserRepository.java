@@ -1,6 +1,6 @@
 package com.zzz.dao;
 
-import com.zzz.domain.User;
+import com.zzz.model.po.UserPo;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -9,12 +9,14 @@ import java.util.List;
  * userDao
  * Created by hushengjun on 2017/9/14.
  */
-public interface UserRepository extends Repository<User, Long> {
+public interface UserRepository extends Repository<UserPo, Long> {
 
-    List<User> findAll();
+    List<UserPo> findAll();
 
-    User findById(Long id);
+    UserPo findById(Long id);
 
-    void save(User user);
+    UserPo findUserByUsernameAndPassword(String username, String password);
+
+    void save(UserPo user);
 
 }

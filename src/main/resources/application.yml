@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/zzz?characterEncoding=utf-8
+    url: jdbc:mysql://localhost/graduate-design-ww?characterEncoding=utf-8
     username: root
     password: 123456
     driverClassName: com.mysql.jdbc.Driver
