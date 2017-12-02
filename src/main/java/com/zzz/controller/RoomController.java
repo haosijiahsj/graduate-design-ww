@@ -1,19 +1,23 @@
 package com.zzz.controller;
 
+import com.zzz.controller.model.BookRoomForm;
 import com.zzz.enums.RoomType;
+import com.zzz.model.vo.ConsumerVo;
+import com.zzz.model.vo.RoomBookVo;
 import com.zzz.service.RoomService;
 import com.zzz.support.ResponseEntity;
 import com.zzz.support.ResponseStatus;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +47,33 @@ public class RoomController {
         responseEntity.setResult(roomService.findAllRoom(pageable));
 
         return responseEntity;
+    }
+
+    @PostMapping("/bookRoom")
+    public ResponseEntity bookRoom(@RequestBody BookRoomForm bookRoomForm) {
+        if (bookRoomForm == null) {
+            return ResponseEntity.builder()
+                    .msgCode(400)
+                    .msgContent("必须输入顾客信息和预定房间号")
+                    .build();
+        }
+
+        RoomBookVo roomBookVo = new RoomBookVo();
+        roomBookVo.setRoom(bookRoomForm.getRoom());
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        roomBookVo.setBeginTime(DateTime.parse(bookRoomForm.getBeginTime(), formatter).toDate());
+        roomBookVo.setEndTime(DateTime.parse(bookRoomForm.getEndTime(), formatter).toDate());
+
+        ConsumerVo consumerVo = ConsumerVo.builder()
+                .idNum(bookRoomForm.getIdNum())
+                .name(bookRoomForm.getName())
+                .sex(bookRoomForm.getSex())
+                .tel(bookRoomForm.getTel())
+                .build();
+
+        roomService.bookRoom(roomBookVo, consumerVo);
+
+        return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
 }

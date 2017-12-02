@@ -3,6 +3,7 @@ package com.zzz.dao;
 import com.zzz.model.po.RoomPo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
 /**
@@ -11,5 +12,8 @@ import org.springframework.data.repository.Repository;
 public interface RoomRepository extends Repository<RoomPo, Integer> {
 
     Page<RoomPo> findAll(Pageable pageable);
+
+    @Query("UPDATE RoomPo r SET r.status = ?1 WHERE r.id = ?2")
+    void updateStatusById(Boolean status, Integer id);
 
 }

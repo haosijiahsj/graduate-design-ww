@@ -66,6 +66,12 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <!-- 时间工具包 -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+        </dependency>
         <!-- 不用写getter，setter -->
         <dependency>
             <groupId>org.projectlombok</groupId>

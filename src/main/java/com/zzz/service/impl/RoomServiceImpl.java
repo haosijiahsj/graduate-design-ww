@@ -1,8 +1,14 @@
 package com.zzz.service.impl;
 
 import com.google.common.base.Preconditions;
+import com.zzz.dao.ConsumerRepository;
+import com.zzz.dao.RoomBookRepository;
 import com.zzz.dao.RoomRepository;
+import com.zzz.model.po.ConsumerPo;
+import com.zzz.model.po.RoomBookPo;
 import com.zzz.model.po.RoomPo;
+import com.zzz.model.vo.ConsumerVo;
+import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
 import com.zzz.service.RoomService;
 import com.zzz.support.PageResult;
@@ -26,6 +32,12 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private ConsumerRepository consumerRepository;
+
+    @Autowired
+    private RoomBookRepository roomBookRepository;
+
     @Override
     public PageResult<RoomVo> findAllRoom(Pageable pageable) {
         Preconditions.checkNotNull(pageable, "入参pageable不能为空！");
@@ -33,6 +45,24 @@ public class RoomServiceImpl implements RoomService {
         Page<RoomPo> roomPoPage = roomRepository.findAll(pageable);
 
         return this.convertPage(roomPoPage);
+    }
+
+    @Override
+    public void bookRoom(RoomBookVo roomBookVo, ConsumerVo consumerVo) {
+        Preconditions.checkNotNull(roomBookVo, "入参rookBookVo不能为空！");
+        Preconditions.checkNotNull(consumerVo, "入参consumerVo不能为空！");
+
+        ConsumerPo consumerPo = new ConsumerPo();
+        RoomBookPo roomBookPo = new RoomBookPo();
+        BeanUtils.copyProperties(consumerVo, consumerPo);
+        BeanUtils.copyProperties(roomBookVo, roomBookPo);
+
+        consumerRepository.save(consumerPo);
+
+        roomBookPo.setConsumer(consumerPo.getId());
+        roomBookRepository.save(roomBookPo);
+
+        roomRepository.updateStatusById(false, roomBookPo.getRoom());
     }
 
     /**
