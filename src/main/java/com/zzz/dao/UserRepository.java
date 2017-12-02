@@ -9,7 +9,7 @@ import java.util.List;
  * userDao
  * Created by hushengjun on 2017/9/14.
  */
-public interface UserRepository extends Repository<UserPo, Long> {
+public interface UserRepository extends Repository<UserPo, Integer> {
 
     List<UserPo> findAll();
 
