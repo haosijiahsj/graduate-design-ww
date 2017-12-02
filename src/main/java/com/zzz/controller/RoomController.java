@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by 胡胜钧 on 12/2 0002.
  */
 @RestController
-@RequestMapping("/graduate-design/gd/room")
+@RequestMapping("/room")
 public class RoomController {
 
     @Autowired

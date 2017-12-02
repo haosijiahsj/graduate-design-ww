@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
  * Created by hushengjun on 2017/9/14.
  */
 @RestController
-@RequestMapping("/graduate-design/gd/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
