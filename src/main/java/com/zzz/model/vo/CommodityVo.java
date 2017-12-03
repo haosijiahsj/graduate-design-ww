@@ -11,10 +11,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FoodVo {
+public class CommodityVo {
 
     private Integer id;
-    private String foodName;
+    private String commodityName;
     private BigDecimal price;
 
 }

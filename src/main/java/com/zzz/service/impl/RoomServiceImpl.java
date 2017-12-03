@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +126,11 @@ public class RoomServiceImpl implements RoomService {
     public void settleRoom(List<RoomBookVo> roomBookVos) {
         Preconditions.checkArgument(CollectionUtils.isNotEmpty(roomBookVos), "入参roomBookVos不能为空！");
 
-
+        // 更新最终结算价格和房间状态
+        roomBookVos.forEach(roomBookVo -> {
+                roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
+                roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookVo.getRoom());
+        });
     }
 
     /**
