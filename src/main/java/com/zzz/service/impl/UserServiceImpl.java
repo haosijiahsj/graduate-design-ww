@@ -22,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Autowired
     private UserRepository userRepository;
 
@@ -41,4 +39,12 @@ public class UserServiceImpl implements UserService {
 
         return userVo;
     }
+
+    @Override
+    public void updateUser(UserVo userVo) {
+        Preconditions.checkNotNull(userVo, "入参userVo不能为空！");
+
+        userRepository.update(userVo.getUsername(), userVo.getPassword(), userVo.getRole(), userVo.getId());
+    }
+
 }

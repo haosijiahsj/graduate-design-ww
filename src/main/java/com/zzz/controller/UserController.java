@@ -10,18 +10,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by hushengjun on 2017/9/14.
  */
 @RestController
-@RequestMapping("/graduate-design/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/login")
-    public ResponseEntity login(String username, String password) {
+    public ResponseEntity login(HttpSession session, String username, String password) {
         UserVo userVo = userService.findUserByUsernameAndPassword(username, password);
         ResponseEntity responseEntity = new ResponseEntity();
 
@@ -30,6 +32,8 @@ public class UserController {
             responseEntity.setMsgContent("用户名或密码错误！");
             return responseEntity;
         }
+
+        session.setAttribute("user", userVo);
 
         return new ResponseEntity(ResponseStatus.SUCCESS, userVo);
     }

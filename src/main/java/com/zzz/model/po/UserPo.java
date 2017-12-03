@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class UserPo {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 

@@ -17,8 +17,12 @@ public class RoomBookVo {
     private Integer id;
     private Integer consumer;
     private Integer room;
+    private BigDecimal deposit;
+    private BigDecimal roomPrice;
     private Date beginTime;
     private Date endTime;
     private BigDecimal settlementPrice;
+    private Boolean status;
+    private RoomVo roomVo;
 
 }

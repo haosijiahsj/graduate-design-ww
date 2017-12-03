@@ -1,5 +1,6 @@
 package com.zzz.model.po;
 
+import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 public class RoomPo {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -24,8 +26,9 @@ public class RoomPo {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_")
-    private Boolean status;
+    private RoomStatus status;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")

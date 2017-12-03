@@ -7,6 +7,18 @@ import com.zzz.model.vo.UserVo;
  */
 public interface UserService {
 
+    /**
+     * 通过用户名和密码查询用户
+     * @param username
+     * @param password
+     * @return
+     */
     UserVo findUserByUsernameAndPassword(String username, String password);
+
+    /**
+     * 更新用户的密码
+     * @param userVo
+     */
+    void updateUser(UserVo userVo);
 
 }
