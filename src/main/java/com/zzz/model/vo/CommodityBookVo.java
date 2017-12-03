@@ -9,11 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FoodBookVo {
+public class CommodityBookVo {
 
     private Integer id;
     private Integer consumer;
-    private Integer food;
+    private Integer commodity;
     private Integer num;
+    private CommodityVo commodityVo;
 
 }

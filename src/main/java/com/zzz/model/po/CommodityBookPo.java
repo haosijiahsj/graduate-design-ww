@@ -9,8 +9,8 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = "food_book")
-public class FoodBookPo {
+@Table(name = "commodity_book")
+public class CommodityBookPo {
 
     @Id
     @Column(name = "id")
@@ -20,8 +20,8 @@ public class FoodBookPo {
     @Column(name = "consumer")
     private Integer consumer;
 
-    @Column(name = "food")
-    private Integer food;
+    @Column(name = "commodity")
+    private Integer commodity;
 
     @Column(name = "num")
     private Integer num;

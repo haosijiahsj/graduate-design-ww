@@ -10,16 +10,16 @@ import java.math.BigDecimal;
  */
 @Data
 @Entity
-@Table(name = "food")
-public class FoodPo {
+@Table(name = "commodity")
+public class CommodityPo {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "food_name")
-    private String foodName;
+    @Column(name = "commodity_name")
+    private String commodityName;
 
     @Column(name = "price")
     private BigDecimal price;

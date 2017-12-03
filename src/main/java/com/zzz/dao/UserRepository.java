@@ -13,7 +13,7 @@ import java.util.List;
  * Created by hushengjun on 2017/9/14.
  */
 public interface UserRepository extends Repository<UserPo, Integer> {
-
+	
     List<UserPo> findAll();
 
     UserPo findById(Long id);
