@@ -17,8 +17,8 @@ public class CommodityBookPo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "consumer")
-    private Integer consumer;
+    @Column(name = "room_book")
+    private Integer roomBook;
 
     @Column(name = "commodity")
     private Integer commodity;

@@ -3,14 +3,11 @@ package com.zzz.service.impl;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.zzz.dao.ConsumerRepository;
-import com.zzz.dao.RoomBookRepository;
-import com.zzz.dao.RoomRepository;
+import com.zzz.dao.*;
 import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
-import com.zzz.model.po.ConsumerPo;
-import com.zzz.model.po.RoomBookPo;
-import com.zzz.model.po.RoomPo;
+import com.zzz.model.po.*;
+import com.zzz.model.vo.CommodityBookVo;
 import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
@@ -25,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,6 +41,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomBookRepository roomBookRepository;
+
+    @Autowired
+    private CommodityRepository commodityRepository;
+
+    @Autowired
+    private CommodityBookRepository commodityBookRepository;
 
     @Override
     public PageResult<RoomVo> findAllRoom(Pageable pageable) {
@@ -123,14 +123,34 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void settleRoom(List<RoomBookVo> roomBookVos) {
-        Preconditions.checkArgument(CollectionUtils.isNotEmpty(roomBookVos), "入参roomBookVos不能为空！");
+    public RoomBookVo settleRoom(RoomBookVo roomBookVo) {
+        Preconditions.checkNotNull(roomBookVo, "入参roomBookVo不能为空！");
 
-        // 更新最终结算价格和房间状态
-        roomBookVos.forEach(roomBookVo -> {
-                roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
-                roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookVo.getRoom());
-        });
+        List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(roomBookVo.getId());
+
+        if (CollectionUtils.isEmpty(commodityBookPos)) {
+            // 没有消费商品，退定金
+            roomBookVo.setSettlementPrice(BigDecimal.ZERO.subtract(roomBookVo.getSettlementPrice()));
+            return roomBookVo;
+        }
+
+        // 计算消费总金额
+        BigDecimal commodityPrice = commodityBookPos.stream()
+                .map(commodityBookPo -> {
+                    CommodityPo commodityPo = commodityRepository.getById(commodityBookPo.getCommodity());
+                    return commodityPo.getPrice().multiply(BigDecimal.valueOf(commodityBookPo.getNum()));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        roomBookVo.setSettlementPrice(roomBookVo.getDeposit().subtract(commodityPrice));
+
+        return roomBookVo;
+    }
+
+    @Override
+    public void updateRoomForSettle(RoomBookVo roomBookVo) {
+        roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookVo.getRoom());
+        roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
     }
 
     /**

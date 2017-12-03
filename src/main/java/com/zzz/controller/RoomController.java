@@ -3,8 +3,10 @@ package com.zzz.controller;
 import com.zzz.controller.model.BookRoomForm;
 import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
+import com.zzz.model.vo.CommodityBookVo;
 import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
+import com.zzz.service.CommodityService;
 import com.zzz.service.ConsumerService;
 import com.zzz.service.RoomService;
 import com.zzz.support.ResponseEntity;
@@ -35,6 +37,9 @@ public class RoomController {
 
     @Autowired
     private ConsumerService consumerService;
+
+    @Autowired
+    private CommodityService commodityService;
 
     @GetMapping("/roomType")
     public List<String> getRoomType() {
@@ -84,7 +89,7 @@ public class RoomController {
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
-    @GetMapping("getConsumerRoomBook")
+    @GetMapping("/getConsumerRoomBook")
     public ResponseEntity getConsumerRoomBook(String idNum) {
         if (StringUtils.isBlank(idNum)) {
             return ResponseEntity.builder().msgCode(400).msgContent("身份证号不能为空！").build();
@@ -95,6 +100,27 @@ public class RoomController {
         responseEntity.setResult(consumerVo);
 
         return responseEntity;
+    }
+
+    @PostMapping("/saveCommodityBook")
+    public ResponseEntity saveCommodityBook(List<CommodityBookVo> commodityBookVos) {
+        commodityService.saveCommodityBook(commodityBookVos);
+
+        return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    @PostMapping("/settleRoom")
+    public ResponseEntity settleRoom(RoomBookVo roomBookVo) {
+        RoomBookVo returnRoomBookVo = roomService.settleRoom(roomBookVo);
+        ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
+        responseEntity.setResult(returnRoomBookVo);
+        return responseEntity;
+    }
+
+    @PostMapping("/updateRoomStatus")
+    public ResponseEntity updateRoomStatus(RoomBookVo roomBookVo) {
+        roomService.updateRoomForSettle(roomBookVo);
+        return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
 }

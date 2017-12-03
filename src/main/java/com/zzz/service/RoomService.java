@@ -1,6 +1,7 @@
 package com.zzz.service;
 
 import com.zzz.enums.RoomStatus;
+import com.zzz.model.vo.CommodityBookVo;
 import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
@@ -51,8 +52,13 @@ public interface RoomService {
 
     /**
      * 结算
-     * @param roomBookVos
+     * @param roomBookVo
      */
-    void settleRoom(List<RoomBookVo> roomBookVos);
+    RoomBookVo settleRoom(RoomBookVo roomBookVo);
+
+    /**
+     * 进行结算后更新房间和结算状态
+     */
+    void updateRoomForSettle(RoomBookVo roomBookVo);
 
 }

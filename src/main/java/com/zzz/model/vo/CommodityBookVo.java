@@ -12,7 +12,7 @@ import lombok.*;
 public class CommodityBookVo {
 
     private Integer id;
-    private Integer consumer;
+    private Integer roomBook;
     private Integer commodity;
     private Integer num;
     private CommodityVo commodityVo;
