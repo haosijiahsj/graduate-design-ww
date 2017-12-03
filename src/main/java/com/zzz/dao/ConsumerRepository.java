@@ -10,4 +10,6 @@ public interface ConsumerRepository extends Repository<ConsumerPo, Integer> {
 
     void save(ConsumerPo consumerPo);
 
+    ConsumerPo getByIdNum(String idNum);
+
 }

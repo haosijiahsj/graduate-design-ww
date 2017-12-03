@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 public class FoodPo {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 

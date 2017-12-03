@@ -1,5 +1,6 @@
 package com.zzz.model.vo;
 
+import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import lombok.*;
 
@@ -17,7 +18,7 @@ public class RoomVo {
     private Integer id;
     private String roomNum;
     private BigDecimal price;
-    private Boolean status;
+    private RoomStatus status;
     private RoomType type;
 
 }

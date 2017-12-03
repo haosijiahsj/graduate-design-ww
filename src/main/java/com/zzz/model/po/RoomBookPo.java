@@ -15,6 +15,7 @@ import java.util.Date;
 public class RoomBookPo {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -24,6 +25,12 @@ public class RoomBookPo {
     @Column(name = "room")
     private Integer room;
 
+    @Column(name = "deposit")
+    private BigDecimal deposit;
+
+    @Column(name = "room_price")
+    private BigDecimal roomPrice;
+
     @Column(name = "begin_time")
     private Date beginTime;
 
@@ -32,5 +39,8 @@ public class RoomBookPo {
 
     @Column(name = "settlement_price")
     private BigDecimal settlementPrice;
+
+    @Column(name = "status_")
+    private Boolean status;
 
 }

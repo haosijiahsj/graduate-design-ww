@@ -1,12 +1,15 @@
 package com.zzz.controller;
 
 import com.zzz.controller.model.BookRoomForm;
+import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
+import com.zzz.service.ConsumerService;
 import com.zzz.service.RoomService;
 import com.zzz.support.ResponseEntity;
 import com.zzz.support.ResponseStatus;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -30,6 +33,9 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private ConsumerService consumerService;
+
     @GetMapping("/roomType")
     public List<String> getRoomType() {
         return Arrays.stream(RoomType.values())
@@ -37,14 +43,14 @@ public class RoomController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/findAllRoom")
-    public ResponseEntity findAllRoom(Integer page, Integer size) {
+    @GetMapping("/findAllCanBookRoom")
+    public ResponseEntity findAllCanBookRoom(Integer page, Integer size) {
         page = page == null ? 1 : page;
         size = size == null ? 20 : size;
         Pageable pageable = new PageRequest(page - 1, size);
 
         ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
-        responseEntity.setResult(roomService.findAllRoom(pageable));
+        responseEntity.setResult(roomService.findAllRoomByStatus(RoomStatus.CAN_BOOK, pageable));
 
         return responseEntity;
     }
@@ -60,6 +66,8 @@ public class RoomController {
 
         RoomBookVo roomBookVo = new RoomBookVo();
         roomBookVo.setRoom(bookRoomForm.getRoom());
+        roomBookVo.setDeposit(bookRoomForm.getDeposit());
+        roomBookVo.setRoomPrice(bookRoomForm.getRoomPrice());
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         roomBookVo.setBeginTime(DateTime.parse(bookRoomForm.getBeginTime(), formatter).toDate());
         roomBookVo.setEndTime(DateTime.parse(bookRoomForm.getEndTime(), formatter).toDate());
@@ -74,6 +82,19 @@ public class RoomController {
         roomService.bookRoom(roomBookVo, consumerVo);
 
         return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    @GetMapping("getConsumerRoomBook")
+    public ResponseEntity getConsumerRoomBook(String idNum) {
+        if (StringUtils.isBlank(idNum)) {
+            return ResponseEntity.builder().msgCode(400).msgContent("身份证号不能为空！").build();
+        }
+
+        ConsumerVo consumerVo = consumerService.getConsumerByIdNum(idNum);
+        ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
+        responseEntity.setResult(consumerVo);
+
+        return responseEntity;
     }
 
 }

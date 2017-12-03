@@ -1,9 +1,13 @@
 package com.zzz.service.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.zzz.dao.ConsumerRepository;
 import com.zzz.dao.RoomBookRepository;
 import com.zzz.dao.RoomRepository;
+import com.zzz.enums.RoomStatus;
+import com.zzz.enums.RoomType;
 import com.zzz.model.po.ConsumerPo;
 import com.zzz.model.po.RoomBookPo;
 import com.zzz.model.po.RoomPo;
@@ -12,6 +16,7 @@ import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
 import com.zzz.service.RoomService;
 import com.zzz.support.PageResult;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +24,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by 胡胜钧 on 12/2 0002.
@@ -48,6 +57,46 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public PageResult<RoomVo> findAllRoomByStatus(RoomStatus status, Pageable pageable) {
+        Preconditions.checkNotNull(status, "入参status不能为空！");
+        Preconditions.checkNotNull(pageable, "入参pageable不能为空！");
+
+        Page<RoomPo> roomPoPage = roomRepository.findByStatus(status, pageable);
+
+        return this.convertPage(roomPoPage);
+    }
+
+    @Override
+    public Map<String, Integer> countCanBookRoomNumByType() {
+        List<RoomPo> roomPos = roomRepository.findByStatus(RoomStatus.CAN_BOOK);
+
+        Map<String, Integer> map = Maps.newHashMap();
+
+        if (CollectionUtils.isEmpty(roomPos)) {
+            Arrays.stream(RoomType.values()).forEach(roomType -> map.put(roomType.getName(), 0));
+            return map;
+        }
+
+        Set<String> dbSet = Sets.newHashSet();
+        roomPos.stream()
+                .collect(Collectors.groupingBy(RoomPo::getType, Collectors.counting()))
+                .forEach(((roomType, num) -> {
+                        map.put(roomType.getName(), num.intValue());
+                        dbSet.add(roomType.getName());
+                }));
+
+        Set<String> allSet = Arrays.stream(RoomType.values()).map(RoomType::getName).collect(Collectors.toSet());
+        Set<String> diffSet = Sets.difference(allSet, dbSet);
+
+        if (CollectionUtils.isEmpty(diffSet)) {
+            return map;
+        }
+        diffSet.forEach(typeStr -> map.put(typeStr, 0));
+
+        return map;
+    }
+
+    @Override
     public void bookRoom(RoomBookVo roomBookVo, ConsumerVo consumerVo) {
         Preconditions.checkNotNull(roomBookVo, "入参rookBookVo不能为空！");
         Preconditions.checkNotNull(consumerVo, "入参consumerVo不能为空！");
@@ -62,7 +111,21 @@ public class RoomServiceImpl implements RoomService {
         roomBookPo.setConsumer(consumerPo.getId());
         roomBookRepository.save(roomBookPo);
 
-        roomRepository.updateStatusById(false, roomBookPo.getRoom());
+        roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookPo.getRoom());
+    }
+
+    @Override
+    public void updateRoom(RoomVo roomVo) {
+        Preconditions.checkNotNull(roomVo, "入参roomVo不能为空！");
+
+        roomRepository.update(roomVo.getPrice(), roomVo.getStatus(), roomVo.getType(), roomVo.getId());
+    }
+
+    @Override
+    public void settleRoom(List<RoomBookVo> roomBookVos) {
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(roomBookVos), "入参roomBookVos不能为空！");
+
+
     }
 
     /**

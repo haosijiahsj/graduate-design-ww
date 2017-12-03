@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class FoodBookPo {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
