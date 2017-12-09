@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 public interface RoomBookRepository extends Repository<RoomBookPo, Integer> {
 

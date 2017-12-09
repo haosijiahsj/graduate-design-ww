@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 @RestController
 @RequestMapping("/room")

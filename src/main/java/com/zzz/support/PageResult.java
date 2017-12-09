@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 要加入getter，setter才能正确的被转换为json
- * @author hushengjun
+ * @author
  * @date 2017/11/2
  */
 @Builder

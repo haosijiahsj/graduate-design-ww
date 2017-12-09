@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 @Data
 @Entity

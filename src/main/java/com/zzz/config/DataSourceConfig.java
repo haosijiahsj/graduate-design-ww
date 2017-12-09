@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- * Created by hushengjun on 2017/9/15.
+ * Created by  on 2017/9/15.
  */
 @Configuration
 @EnableConfigurationProperties(DataSourceProperties.class)

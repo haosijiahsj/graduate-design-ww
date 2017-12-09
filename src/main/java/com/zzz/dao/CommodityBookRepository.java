@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 /**
- * Created by 胡胜钧 on 12/3 0003.
+ * Created by  on 12/3 0003.
  */
 public interface CommodityBookRepository extends Repository<CommodityBookPo, Integer> {
 

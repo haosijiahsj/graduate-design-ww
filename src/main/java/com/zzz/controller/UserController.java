@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Created by hushengjun on 2017/9/14.
+ * Created by  on 2017/9/14.
  */
 @RestController
 @RequestMapping("/user")

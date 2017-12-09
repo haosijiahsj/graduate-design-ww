@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * ok
- * Created by hushengjun on 2017/9/14.
+ * Created by  on 2017/9/14.
  */
 @Service
 @Transactional(rollbackFor = Exception.class)

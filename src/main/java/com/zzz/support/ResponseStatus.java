@@ -1,7 +1,7 @@
 package com.zzz.support;
 
 /**
- * Created by hushengjun on 2017/11/2.
+ * Created by  on 2017/11/2.
  */
 public enum ResponseStatus {
 

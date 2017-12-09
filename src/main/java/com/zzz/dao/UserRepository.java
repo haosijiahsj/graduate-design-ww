@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * userDao
- * Created by hushengjun on 2017/9/14.
+ * Created by  on 2017/9/14.
  */
 public interface UserRepository extends Repository<UserPo, Integer> {
 	

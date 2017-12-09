@@ -3,7 +3,7 @@ package com.zzz.enums;
 import java.util.Arrays;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 public enum RoleType {
 

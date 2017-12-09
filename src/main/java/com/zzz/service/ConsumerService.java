@@ -3,7 +3,7 @@ package com.zzz.service;
 import com.zzz.model.vo.ConsumerVo;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 public interface ConsumerService {
 

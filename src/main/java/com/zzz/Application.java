@@ -14,8 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Created by hushengjun on 2017/9/14.
- * app
+ * app入口
  */
 @Configuration
 @EntityScan("com.zzz.model.po")

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * controller层统一返回的实体
  *
- * @author hushengjun
+ * @author
  * @date 2017/9/14
  */
 @Builder

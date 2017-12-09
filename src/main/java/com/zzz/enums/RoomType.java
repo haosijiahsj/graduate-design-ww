@@ -1,7 +1,7 @@
 package com.zzz.enums;
 
 /**
- * Created by 胡胜钧 on 12/2 0002.
+ * Created by  on 12/2 0002.
  */
 public enum RoomType {
     SINGLE_ROOM("SINGLE_ROOM", "单间"),

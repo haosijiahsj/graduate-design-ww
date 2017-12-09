@@ -5,7 +5,7 @@ import com.zzz.model.vo.CommodityBookVo;
 import java.util.List;
 
 /**
- * Created by 胡胜钧 on 12/3 0003.
+ * Created by  on 12/3 0003.
  */
 public interface CommodityService {
 
