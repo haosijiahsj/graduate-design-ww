@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -77,22 +78,10 @@ public class RoomController {
         }
 
         RoomBookVo roomBookVo = new RoomBookVo();
-        roomBookVo.setRoom(bookRoomForm.getRoom());
-        roomBookVo.setDeposit(bookRoomForm.getDeposit());
-        roomBookVo.setRoomPrice(bookRoomForm.getRoomPrice());
-//        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-//        roomBookVo.setBeginTime(DateTime.parse(bookRoomForm.getBeginTime(), formatter).toDate());
-//        roomBookVo.setEndTime(DateTime.parse(bookRoomForm.getEndTime(), formatter).toDate());
-        roomBookVo.setBeginTime(bookRoomForm.getBeginTime());
-        roomBookVo.setEndTime(bookRoomForm.getEndTime());
+        ConsumerVo consumerVo = new ConsumerVo();
+        BeanUtils.copyProperties(bookRoomForm, roomBookVo);
+        BeanUtils.copyProperties(bookRoomForm, consumerVo);
         roomBookVo.setStatus(false);
-
-        ConsumerVo consumerVo = ConsumerVo.builder()
-                .idNum(bookRoomForm.getIdNum())
-                .name(bookRoomForm.getName())
-                .sex(bookRoomForm.getSex())
-                .tel(bookRoomForm.getTel())
-                .build();
 
         roomService.bookRoom(roomBookVo, consumerVo);
 
