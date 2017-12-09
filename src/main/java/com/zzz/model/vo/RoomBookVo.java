@@ -2,6 +2,7 @@ package com.zzz.model.vo;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,7 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RoomBookVo {
+public class RoomBookVo implements Serializable {
+
+    private static final long serialVersionUID = -2815883455784047483L;
 
     private Integer id;
     private Integer consumer;

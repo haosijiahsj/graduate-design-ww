@@ -2,6 +2,8 @@ package com.zzz.service;
 
 import com.zzz.model.vo.UserVo;
 
+import java.util.List;
+
 /**
  * Created by hushengjun on 2017/9/7.
  */
@@ -20,5 +22,17 @@ public interface UserService {
      * @param userVo
      */
     void updateUser(UserVo userVo);
+
+    /**
+     * 新建账号
+     * @param userVos
+     */
+    void saveUser(List<UserVo> userVos);
+
+    /**
+     * 删除账号
+     * @param ids
+     */
+    void deleteUser(List<Integer> ids);
 
 }

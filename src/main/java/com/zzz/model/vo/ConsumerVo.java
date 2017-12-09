@@ -2,6 +2,7 @@ package com.zzz.model.vo;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ConsumerVo {
+public class ConsumerVo implements Serializable {
+
+    private static final long serialVersionUID = -5989989186992102895L;
 
     private Integer id;
     private String idNum;

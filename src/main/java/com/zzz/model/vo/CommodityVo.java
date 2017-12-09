@@ -2,6 +2,7 @@ package com.zzz.model.vo;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -11,7 +12,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CommodityVo {
+public class CommodityVo implements Serializable {
+
+    private static final long serialVersionUID = 2377543401255615592L;
 
     private Integer id;
     private String commodityName;

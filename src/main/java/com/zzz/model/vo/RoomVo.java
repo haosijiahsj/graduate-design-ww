@@ -4,6 +4,7 @@ import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -13,7 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RoomVo {
+public class RoomVo implements Serializable {
+
+    private static final long serialVersionUID = 3325799888151101252L;
 
     private Integer id;
     private String roomNum;

@@ -1,16 +1,21 @@
 package com.zzz.controller;
 
+import com.google.common.collect.Maps;
+import com.zzz.controller.model.UserForm;
+import com.zzz.enums.RoleType;
 import com.zzz.model.vo.UserVo;
 import com.zzz.service.UserService;
 import com.zzz.support.ResponseEntity;
 import com.zzz.support.ResponseStatus;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by hushengjun on 2017/9/14.
@@ -36,6 +41,37 @@ public class UserController {
         session.setAttribute("user", userVo);
 
         return new ResponseEntity(ResponseStatus.SUCCESS, userVo);
+    }
+
+    @GetMapping("/roleType")
+    public Map<String, String> roleType() {
+        Map<String, String> map = Maps.newHashMap();
+        Arrays.stream(RoleType.values())
+                .forEach(roleType -> map.put(roleType.getCode(), roleType.getName()));
+        return map;
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity save(@RequestBody List<UserForm> userForms) {
+        List<UserVo> userVos = userForms.stream()
+                .map(userForm -> {
+                    UserVo userVo = new UserVo();
+                    BeanUtils.copyProperties(userForm, userVo, "role");
+                    userVo.setRole(RoleType.getByCode(userForm.getRole()));
+                    return userVo;
+                })
+                .collect(Collectors.toList());
+        userService.saveUser(userVos);
+        return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity delete(@RequestBody List<UserForm> userForms) {
+        List<Integer> ids = userForms.stream()
+                .map(UserForm::getId)
+                .collect(Collectors.toList());
+        userService.deleteUser(ids);
+        return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
 }

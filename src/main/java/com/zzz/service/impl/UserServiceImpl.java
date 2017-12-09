@@ -6,13 +6,13 @@ import com.zzz.model.po.UserPo;
 import com.zzz.model.vo.UserVo;
 import com.zzz.service.UserService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * ok
@@ -45,6 +45,24 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userVo, "入参userVo不能为空！");
 
         userRepository.update(userVo.getUsername(), userVo.getPassword(), userVo.getRole(), userVo.getId());
+    }
+
+    @Override
+    public void saveUser(List<UserVo> userVos) {
+        Preconditions.checkArgument(CollectionUtils.isNotEmpty(userVos), "入参userVos不能为空！");
+
+        userVos.forEach(userVo -> {
+                    UserPo userPo = new UserPo();
+                    BeanUtils.copyProperties(userVo, userPo);
+                    userRepository.save(userPo);
+                });
+    }
+
+    @Override
+    public void deleteUser(List<Integer> ids) {
+        Preconditions.checkNotNull(CollectionUtils.isNotEmpty(ids), "入参ids不能为空！");
+
+        userRepository.deleteByIdIn(ids);
     }
 
 }

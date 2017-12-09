@@ -16,11 +16,13 @@ public interface UserRepository extends Repository<UserPo, Integer> {
 	
     List<UserPo> findAll();
 
-    UserPo findById(Long id);
+    UserPo findById(Integer id);
 
     UserPo findUserByUsernameAndPassword(String username, String password);
 
-    void save(UserPo user);
+    void save(UserPo userPo);
+
+    void deleteByIdIn(List<Integer> ids);
 
     @Modifying
     @Query("UPDATE UserPo u SET u.username = ?1, password = ?2, u.role = ?3 WHERE u.id = ?4")
