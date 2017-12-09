@@ -13,6 +13,7 @@ import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
 import com.zzz.service.RoomService;
 import com.zzz.support.PageResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.util.stream.Stream;
 /**
  * Created by  on 12/2 0002.
  */
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RoomServiceImpl implements RoomService {
@@ -133,6 +135,7 @@ public class RoomServiceImpl implements RoomService {
         if (CollectionUtils.isEmpty(commodityBookPos)) {
             // 没有消费商品，退定金
             roomBookVo.setSettlementPrice(BigDecimal.ZERO.subtract(roomBookVo.getDeposit()));
+            log.info("房间预定单id：{}没有消费，退还定金：{}", id, roomBookVo.getDeposit());
             return roomBookVo;
         }
 
@@ -146,12 +149,14 @@ public class RoomServiceImpl implements RoomService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         roomBookVo.setSettlementPrice(roomBookVo.getDeposit().subtract(commodityPrice));
+        log.info("房间预定单id：{}，计算价格：{}", id, roomBookVo.getSettlementPrice());
 
         return roomBookVo;
     }
 
     @Override
     public void updateRoomForSettle(RoomBookVo roomBookVo) {
+        log.info("更新房间id：{}状态未可预订，房间单id：{}计算价格", roomBookVo.getRoom(), roomBookVo.getId());
         roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookVo.getRoom());
         roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
     }

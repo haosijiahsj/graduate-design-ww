@@ -6,6 +6,7 @@ import com.zzz.model.po.UserPo;
 import com.zzz.model.vo.UserVo;
 import com.zzz.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Created by  on 2017/9/14.
  */
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
 
         UserPo userPo = userRepository.findUserByUsernameAndPassword(username, password);
         if (userPo == null) {
+
             return null;
         }
 
