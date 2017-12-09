@@ -1,5 +1,6 @@
 package com.zzz.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.io.Serializable;
@@ -22,7 +23,11 @@ public class RoomBookVo implements Serializable {
     private Integer room;
     private BigDecimal deposit;
     private BigDecimal roomPrice;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date beginTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
     private BigDecimal settlementPrice;
     private Boolean status;

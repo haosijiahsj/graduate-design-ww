@@ -123,14 +123,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public RoomBookVo settleRoom(RoomBookVo roomBookVo) {
-        Preconditions.checkNotNull(roomBookVo, "入参roomBookVo不能为空！");
+    public RoomBookVo settleRoom(Integer id) {
+        Preconditions.checkNotNull(id, "入参id不能为空！");
 
-        List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(roomBookVo.getId());
+        RoomBookVo roomBookVo = new RoomBookVo();
+        BeanUtils.copyProperties(roomBookRepository.getById(id), roomBookVo);
+        List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(id);
 
         if (CollectionUtils.isEmpty(commodityBookPos)) {
             // 没有消费商品，退定金
-            roomBookVo.setSettlementPrice(BigDecimal.ZERO.subtract(roomBookVo.getSettlementPrice()));
+            roomBookVo.setSettlementPrice(BigDecimal.ZERO.subtract(roomBookVo.getDeposit()));
             return roomBookVo;
         }
 
@@ -138,7 +140,8 @@ public class RoomServiceImpl implements RoomService {
         BigDecimal commodityPrice = commodityBookPos.stream()
                 .map(commodityBookPo -> {
                     CommodityPo commodityPo = commodityRepository.getById(commodityBookPo.getCommodity());
-                    return commodityPo.getPrice().multiply(BigDecimal.valueOf(commodityBookPo.getNum()));
+                    int num = commodityBookPo.getNum() == null ? 0 : commodityBookPo.getNum();
+                    return commodityPo.getPrice().multiply(BigDecimal.valueOf(num));
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 

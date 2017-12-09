@@ -52,9 +52,9 @@ public interface RoomService {
 
     /**
      * 结算
-     * @param roomBookVo
+     * @param id
      */
-    RoomBookVo settleRoom(RoomBookVo roomBookVo);
+    RoomBookVo settleRoom(Integer id);
 
     /**
      * 进行结算后更新房间和结算状态

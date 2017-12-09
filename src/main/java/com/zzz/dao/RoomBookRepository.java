@@ -15,10 +15,12 @@ public interface RoomBookRepository extends Repository<RoomBookPo, Integer> {
 
     void save(RoomBookPo roomBookPo);
 
+    RoomBookPo getById(Integer id);
+
     List<RoomBookPo> findByConsumer(Integer consumer);
 
     @Modifying
-    @Query("UPDATE RoomBookPo rb SET rb.settlementPrice = ?1 WHERE rb.id = ?2")
+    @Query("UPDATE RoomBookPo rb SET rb.settlementPrice = ?1, rb.status = true WHERE rb.id = ?2")
     void updateSettlementPrice(BigDecimal settlementPrice, Integer id);
 
 }

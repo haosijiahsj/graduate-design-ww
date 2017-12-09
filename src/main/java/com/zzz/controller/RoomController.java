@@ -1,7 +1,9 @@
 package com.zzz.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zzz.controller.model.BookRoomForm;
+import com.zzz.controller.model.CommodityBookForm;
 import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import com.zzz.model.vo.CommodityBookVo;
@@ -69,7 +71,7 @@ public class RoomController {
      */
     @PostMapping("/bookRoom")
     public ResponseEntity bookRoom(String json) {
-        BookRoomForm bookRoomForm = JSON.parseObject(json, BookRoomForm.class);
+        BookRoomForm bookRoomForm = JSONObject.parseObject(json, BookRoomForm.class);
         if (bookRoomForm == null) {
             return ResponseEntity.builder()
                     .msgCode(400)
@@ -108,11 +110,21 @@ public class RoomController {
 
     /**
      * 添加用户消费信息
-     * @param commodityBookVos
+     * @param json
      * @return
      */
     @PostMapping("/saveCommodityBook")
-    public ResponseEntity saveCommodityBook(@RequestBody List<CommodityBookVo> commodityBookVos) {
+    public ResponseEntity saveCommodityBook(String json) {
+        List<CommodityBookForm> commodityBookForms = JSONObject.parseArray(json, CommodityBookForm.class);
+        List<CommodityBookVo> commodityBookVos = commodityBookForms.stream()
+                .filter(commodityBookForm -> commodityBookForm.getStatus() == 1)
+                .map(commodityBookForm -> {
+                    CommodityBookVo commodityBookVo = new CommodityBookVo();
+                    BeanUtils.copyProperties(commodityBookForm, commodityBookVo);
+                    return commodityBookVo;
+                })
+                .collect(Collectors.toList());
+
         commodityService.saveCommodityBook(commodityBookVos);
 
         return new ResponseEntity(ResponseStatus.SUCCESS);
@@ -120,12 +132,12 @@ public class RoomController {
 
     /**
      * 结算
-     * @param roomBookVo
+     * @param id
      * @return
      */
     @PostMapping("/settleRoom")
-    public ResponseEntity settleRoom(@RequestBody RoomBookVo roomBookVo) {
-        RoomBookVo returnRoomBookVo = roomService.settleRoom(roomBookVo);
+    public ResponseEntity settleRoom(Integer id) {
+        RoomBookVo returnRoomBookVo = roomService.settleRoom(id);
         ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
         responseEntity.setResult(returnRoomBookVo);
         return responseEntity;

@@ -26,8 +26,10 @@ import java.util.stream.Collectors;
 public class CommodityServiceImpl implements CommodityService {
 	@Autowired
     private CommodityBookRepository commodityBookRepository;
+
 	@Autowired
 	private CommodityRepository commodityRepository;
+
     @Override
     public void saveCommodityBook(List<CommodityBookVo> commodityBookVos) {
         Preconditions.checkArgument(CollectionUtils.isNotEmpty(commodityBookVos), "入参commodityBookVos不能为空！");
