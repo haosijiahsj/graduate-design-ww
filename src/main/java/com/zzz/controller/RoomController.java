@@ -145,11 +145,12 @@ public class RoomController {
 
     /**
      * 更新房间状态
-     * @param roomBookVo
+     * @param json
      * @return
      */
     @PostMapping("/updateRoomStatus")
-    public ResponseEntity updateRoomStatus(@RequestBody RoomBookVo roomBookVo) {
+    public ResponseEntity updateRoomStatus(String json) {
+        RoomBookVo roomBookVo = JSONObject.parseObject(json, RoomBookVo.class);
         roomService.updateRoomForSettle(roomBookVo);
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }

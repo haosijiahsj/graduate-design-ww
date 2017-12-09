@@ -17,7 +17,7 @@ public interface RoomBookRepository extends Repository<RoomBookPo, Integer> {
 
     RoomBookPo getById(Integer id);
 
-    List<RoomBookPo> findByConsumer(Integer consumer);
+    List<RoomBookPo> findByConsumerAndStatus(Integer consumer, Boolean status);
 
     @Modifying
     @Query("UPDATE RoomBookPo rb SET rb.settlementPrice = ?1, rb.status = true WHERE rb.id = ?2")

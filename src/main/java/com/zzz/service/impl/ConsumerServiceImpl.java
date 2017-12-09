@@ -50,7 +50,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             return null;
         }
 
-        List<RoomBookPo> roomBookPos = roomBookRepository.findByConsumer(consumerPo.getId());
+        List<RoomBookPo> roomBookPos = roomBookRepository.findByConsumerAndStatus(consumerPo.getId(), false);
 
         if (CollectionUtils.isEmpty(roomBookPos)) {
             log.info("通过consumer:{}没有没有查询到预定房间信息！", consumerPo.getId());
