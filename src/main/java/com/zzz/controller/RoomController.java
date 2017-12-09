@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by  on 12/2 0002.
+ * Created by 胡胜钧 on 12/2 0002.
  */
 @RestController
 @RequestMapping("/room")
@@ -63,7 +63,7 @@ public class RoomController {
 
     /**
      * 预定房间
-     * @param bookRoomForm
+     * @param json
      * @return
      */
     @PostMapping("/bookRoom")
@@ -80,9 +80,12 @@ public class RoomController {
         roomBookVo.setRoom(bookRoomForm.getRoom());
         roomBookVo.setDeposit(bookRoomForm.getDeposit());
         roomBookVo.setRoomPrice(bookRoomForm.getRoomPrice());
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        roomBookVo.setBeginTime(DateTime.parse(bookRoomForm.getBeginTime(), formatter).toDate());
-        roomBookVo.setEndTime(DateTime.parse(bookRoomForm.getEndTime(), formatter).toDate());
+//        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+//        roomBookVo.setBeginTime(DateTime.parse(bookRoomForm.getBeginTime(), formatter).toDate());
+//        roomBookVo.setEndTime(DateTime.parse(bookRoomForm.getEndTime(), formatter).toDate());
+        roomBookVo.setBeginTime(bookRoomForm.getBeginTime());
+        roomBookVo.setEndTime(bookRoomForm.getEndTime());
+        roomBookVo.setStatus(false);
 
         ConsumerVo consumerVo = ConsumerVo.builder()
                 .idNum(bookRoomForm.getIdNum())
