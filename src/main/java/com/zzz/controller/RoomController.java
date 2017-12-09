@@ -1,5 +1,6 @@
 package com.zzz.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.zzz.controller.model.BookRoomForm;
 import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
@@ -66,7 +67,8 @@ public class RoomController {
      * @return
      */
     @PostMapping("/bookRoom")
-    public ResponseEntity bookRoom(@RequestBody BookRoomForm bookRoomForm) {
+    public ResponseEntity bookRoom(String json) {
+        BookRoomForm bookRoomForm = JSON.parseObject(json, BookRoomForm.class);
         if (bookRoomForm == null) {
             return ResponseEntity.builder()
                     .msgCode(400)
@@ -130,7 +132,7 @@ public class RoomController {
      * @return
      */
     @PostMapping("/settleRoom")
-    public ResponseEntity settleRoom(RoomBookVo roomBookVo) {
+    public ResponseEntity settleRoom(@RequestBody RoomBookVo roomBookVo) {
         RoomBookVo returnRoomBookVo = roomService.settleRoom(roomBookVo);
         ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
         responseEntity.setResult(returnRoomBookVo);
