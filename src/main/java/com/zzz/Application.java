@@ -34,7 +34,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        logger.info("The Application of graduate-design-ww Started Successfully...");
+        logger.info("graduate-design-ww应用启动成功！");
     }
 
 }

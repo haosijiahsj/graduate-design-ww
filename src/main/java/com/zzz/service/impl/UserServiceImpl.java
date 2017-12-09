@@ -42,10 +42,11 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(password, "入参password不能为空！");
 
         UserPo userPo = userRepository.findUserByUsernameAndPassword(username, password);
-        UserVo userVo = new UserVo();
         if (userPo == null) {
             return null;
         }
+
+        UserVo userVo = new UserVo();
         BeanUtils.copyProperties(userPo, userVo);
 
         return userVo;
