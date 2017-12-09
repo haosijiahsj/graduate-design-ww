@@ -12,32 +12,29 @@ import com.zzz.service.EmployeeService;
 import com.zzz.model.po.EmployeePo;
 import com.zzz.model.vo.EmployeeVo;
 
-@Controller
+@RestController
 @RequestMapping("/employee")
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@ResponseBody
 	@RequestMapping("/findALL")
-	List<EmployeeVo> findALL(Specification<EmployeePo> employeePo){
-		return employeeService.findALL(employeePo);
+	List<EmployeeVo> findALL(){
+		return employeeService.findALL();
 	}
 	
-	@ResponseBody
 	@RequestMapping("/findById")
-	EmployeeVo findById(long id){
+	EmployeeVo findById(Integer id){
 		return employeeService.findById(id);
 	}
-	@ResponseBody
+
 	@RequestMapping("/save")
-	void save(EmployeePo employee){
-		employeeService.save(employee);
+	void save(EmployeeVo employeeVo){
+		employeeService.save(employeeVo);
 	}
-	@ResponseBody
+
 	@RequestMapping("/update")
 	void update(Integer id, String name, Integer sex, String tel, String idNum){
 		employeeService.update(id, name, sex, tel, idNum);
-		
 	}
 }

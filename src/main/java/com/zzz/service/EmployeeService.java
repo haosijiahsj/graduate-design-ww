@@ -2,11 +2,6 @@ package com.zzz.service;
 
 import java.util.List;
 
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-
-import com.zzz.model.po.EmployeePo;
 import com.zzz.model.vo.EmployeeVo;
 
 /**
@@ -14,11 +9,11 @@ import com.zzz.model.vo.EmployeeVo;
  */
 public interface EmployeeService {
 	
-	List<EmployeeVo> findALL(Specification<EmployeePo> employeePo);
+	List<EmployeeVo> findALL();
 	
-	EmployeeVo findById(long id);
+	EmployeeVo findById(Integer id);
 	
-	void save(EmployeePo employee);
+	void save(EmployeeVo employeeVo);
 
 	void update(Integer id, String name, Integer sex, String tel, String idNum);
 }

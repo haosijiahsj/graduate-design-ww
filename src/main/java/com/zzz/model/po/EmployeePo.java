@@ -23,7 +23,7 @@ public class EmployeePo {
     @Column(name = "sex")
     private Integer sex;
 
-    @Column(name = "telp")
+    @Column(name = "tel")
     private String tel;
 
     @Column(name = "id_num")
