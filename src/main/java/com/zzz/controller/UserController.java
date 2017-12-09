@@ -43,6 +43,10 @@ public class UserController {
         return new ResponseEntity(ResponseStatus.SUCCESS, userVo);
     }
 
+    /**
+     * 获取系统所有角色
+     * @return
+     */
     @GetMapping("/roleType")
     public Map<String, String> roleType() {
         Map<String, String> map = Maps.newHashMap();
@@ -51,6 +55,11 @@ public class UserController {
         return map;
     }
 
+    /**
+     * 添加新用户
+     * @param userForms
+     * @return
+     */
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody List<UserForm> userForms) {
         List<UserVo> userVos = userForms.stream()
@@ -65,6 +74,11 @@ public class UserController {
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
+    /**
+     * 批量删除用户
+     * @param userForms
+     * @return
+     */
     @PostMapping("/delete")
     public ResponseEntity delete(@RequestBody List<UserForm> userForms) {
         List<Integer> ids = userForms.stream()
@@ -72,6 +86,13 @@ public class UserController {
                 .collect(Collectors.toList());
         userService.deleteUser(ids);
         return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    @GetMapping("/findAllUser")
+    public ResponseEntity findAllUser() {
+        ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
+        responseEntity.setResult(userService.findAllUser());
+        return responseEntity;
     }
 
 }

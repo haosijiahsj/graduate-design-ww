@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ok
@@ -24,6 +25,17 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    public List<UserVo> findAllUser() {
+        return userRepository.findAll().stream()
+                .map(userPo -> {
+                    UserVo userVo = new UserVo();
+                    BeanUtils.copyProperties(userPo, userVo);
+                    return userVo;
+                })
+                .collect(Collectors.toList());
+    }
 
     @Override
     public UserVo findUserByUsernameAndPassword(String username, String password) {

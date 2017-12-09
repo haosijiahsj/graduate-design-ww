@@ -60,6 +60,11 @@ public class RoomController {
         return responseEntity;
     }
 
+    /**
+     * 预定房间
+     * @param bookRoomForm
+     * @return
+     */
     @PostMapping("/bookRoom")
     public ResponseEntity bookRoom(@RequestBody BookRoomForm bookRoomForm) {
         if (bookRoomForm == null) {
@@ -89,6 +94,11 @@ public class RoomController {
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
+    /**
+     * 获取用户预定的房间列表
+     * @param idNum
+     * @return
+     */
     @GetMapping("/getConsumerRoomBook")
     public ResponseEntity getConsumerRoomBook(String idNum) {
         if (StringUtils.isBlank(idNum)) {
@@ -102,13 +112,23 @@ public class RoomController {
         return responseEntity;
     }
 
+    /**
+     * 添加用户消费信息
+     * @param commodityBookVos
+     * @return
+     */
     @PostMapping("/saveCommodityBook")
-    public ResponseEntity saveCommodityBook(List<CommodityBookVo> commodityBookVos) {
+    public ResponseEntity saveCommodityBook(@RequestBody List<CommodityBookVo> commodityBookVos) {
         commodityService.saveCommodityBook(commodityBookVos);
 
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }
 
+    /**
+     * 结算
+     * @param roomBookVo
+     * @return
+     */
     @PostMapping("/settleRoom")
     public ResponseEntity settleRoom(RoomBookVo roomBookVo) {
         RoomBookVo returnRoomBookVo = roomService.settleRoom(roomBookVo);
@@ -117,8 +137,13 @@ public class RoomController {
         return responseEntity;
     }
 
+    /**
+     * 更新房间状态
+     * @param roomBookVo
+     * @return
+     */
     @PostMapping("/updateRoomStatus")
-    public ResponseEntity updateRoomStatus(RoomBookVo roomBookVo) {
+    public ResponseEntity updateRoomStatus(@RequestBody RoomBookVo roomBookVo) {
         roomService.updateRoomForSettle(roomBookVo);
         return new ResponseEntity(ResponseStatus.SUCCESS);
     }

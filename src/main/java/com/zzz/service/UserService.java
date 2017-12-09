@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface UserService {
 
+    List<UserVo> findAllUser();
+
     /**
      * 通过用户名和密码查询用户
      * @param username
