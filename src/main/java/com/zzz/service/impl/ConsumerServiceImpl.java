@@ -1,6 +1,7 @@
 package com.zzz.service.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.zzz.dao.ConsumerRepository;
 import com.zzz.dao.RoomBookRepository;
 import com.zzz.dao.RoomRepository;
@@ -15,9 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -89,4 +96,36 @@ public class ConsumerServiceImpl implements ConsumerService {
 
         return consumerVo;
     }
+
+    @Override
+    public List<ConsumerVo> findConsumers(ConsumerVo consumerVo) {
+        Preconditions.checkNotNull(consumerVo, "入参consumerVo不嫩为空！");
+
+        Specification<ConsumerPo> specification = (root, query, cb) -> {
+            List<Predicate> predicates = Lists.newArrayList();
+            if (consumerVo.getIdNum() != null) {
+                predicates.add(cb.equal(root.get("idNum"), consumerVo.getIdNum()));
+            }
+            if (consumerVo.getName() != null) {
+                predicates.add(cb.like(root.get("name"), "%" + consumerVo.getName() + "%"));
+            }
+            if (consumerVo.getSex() != null) {
+                predicates.add(cb.equal(root.get("sex"), consumerVo.getSex()));
+            }
+            if (consumerVo.getTel() != null) {
+                predicates.add(cb.equal(root.get("tel"), consumerVo.getTel()));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return consumerRepository.findAll(specification).stream()
+                .map(consumerPo -> {
+                    ConsumerVo consumer = new ConsumerVo();
+                    BeanUtils.copyProperties(consumerPo, consumer);
+                    return consumer;
+                })
+                .collect(Collectors.toList());
+    }
+
 }
