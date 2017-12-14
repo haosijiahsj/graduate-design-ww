@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
 
         UserPo userPo = userRepository.findUserByUsernameAndPassword(username, password);
         if (userPo == null) {
-
             return null;
         }
 
