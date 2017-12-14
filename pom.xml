@@ -7,13 +7,16 @@
     <groupId>com.zzz</groupId>
     <artifactId>graduate-design</artifactId>
     <version>1.0-RELEASE</version>
-
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <!-- spring-parent作为父级pom -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.6.RELEASE</version>
     </parent>
-
+    <!-- 依赖包 -->
     <dependencies>
         <!-- spring-boot web支持包 -->
         <dependency>
@@ -92,11 +95,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
+    <!-- 使用spring-boot插件构建 -->
     <build>
         <plugins>
             <plugin>
