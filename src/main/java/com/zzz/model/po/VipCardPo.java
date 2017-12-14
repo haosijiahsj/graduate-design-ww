@@ -3,12 +3,8 @@ package com.zzz.model.po;
 import com.zzz.enums.VipCardLevel;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 /**
  * Created by on 2017/12/13.
