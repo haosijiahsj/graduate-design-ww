@@ -5,13 +5,24 @@ server:
   servlet-path: /
 spring:
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/graduate-design-ww?characterEncoding=utf-8
     username: root
     password: 123456
     driverClassName: com.mysql.jdbc.Driver
-    max-active: 150
-    max-idle: 50
-    min-idle: 30
+    initialSize: 5
+    maxActive: 150
+    maxIdle: 50
+    minIdle: 30
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,slf4j
+    logSlowSql: true
   jpa:
     show-sql: false
     properties:
