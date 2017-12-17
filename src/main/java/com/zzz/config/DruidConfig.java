@@ -17,15 +17,16 @@ import javax.sql.DataSource;
  */
 @Slf4j
 @Configuration
+@ConfigurationProperties(prefix = "spring.datasource")
 public class DruidConfig {
 
     private static final String DRUID_URL = "/druid/*";
+    private static final String URL_PATTERNS = "/*";
     private static final String LOGIN_USERNAME = "root";
     private static final String LOGIN_PASSWORD = "123456";
     private static final String LOG_SLOW_SQL = "true";
     private static final String EXCLUSIONS = "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*";
     private static final String PROFILE_ENABLE = "true";
-
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -49,7 +50,7 @@ public class DruidConfig {
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns(URL_PATTERNS);
         filterRegistrationBean.addInitParameter("exclusions", EXCLUSIONS);
         filterRegistrationBean.addInitParameter("profileEnable", PROFILE_ENABLE);
         return filterRegistrationBean;

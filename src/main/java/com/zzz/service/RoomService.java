@@ -61,4 +61,11 @@ public interface RoomService {
      */
     void updateRoomForSettle(RoomBookVo roomBookVo);
 
+    /**
+     * 查询客户预定过的房间所有信息
+     * @param consumer
+     * @return
+     */
+    List<RoomBookVo> findRoomBookByConsumer(Integer consumer);
+
 }

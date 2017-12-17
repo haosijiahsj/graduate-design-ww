@@ -163,6 +163,42 @@ public class RoomServiceImpl implements RoomService {
         roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
     }
 
+    @Override
+    public List<RoomBookVo> findRoomBookByConsumer(Integer consumer) {
+        Preconditions.checkNotNull(consumer, "入参consumer不能为空！");
+
+        List<RoomBookPo> roomBookPos = roomBookRepository.findByConsumer(consumer);
+
+        if (CollectionUtils.isEmpty(roomBookPos)) {
+            log.info("通过客户id：{}没有查询到订单信息！", consumer);
+            return Collections.emptyList();
+        }
+
+        List<Integer> roomIds = roomBookPos.stream()
+                .map(RoomBookPo::getRoom)
+                .collect(Collectors.toList());
+        List<RoomVo> roomVos = roomRepository.findByIdIn(roomIds).stream()
+                .map(roomPo -> {
+                    RoomVo roomVo = new RoomVo();
+                    BeanUtils.copyProperties(roomPo, roomVo);
+                    return roomVo;
+                })
+                .collect(Collectors.toList());
+
+        return roomBookPos.stream()
+                .map(roomBookPo -> {
+                    RoomBookVo roomBookVo = new RoomBookVo();
+                    BeanUtils.copyProperties(roomBookPo, roomBookVo);
+                    for (RoomVo roomVo : roomVos) {
+                        if (roomVo.getId().equals(roomBookVo.getRoom())) {
+                            roomBookVo.setRoomVo(roomVo);
+                        }
+                    }
+                    return roomBookVo;
+                })
+                .collect(Collectors.toList());
+    }
+
     /**
      * 转换
      * @param poPage
