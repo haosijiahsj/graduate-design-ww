@@ -1,12 +1,14 @@
 package com.zzz.support;
 
 /**
- * Created by  on 2017/11/2.
+ * Created by on 2017/11/2.
  */
 public enum ResponseStatus {
 
     SUCCESS(200, "success"),
-    REQUEST_PARAM_EXCEPTION(601, "request parameters exception, check your parameters");
+    SUCCESS_EMPTY_RESULT(300, "empty result"),
+    FAILED(400, "failed"),
+    ILLEGAL_PARAM(401, "illegal param");
 
     private int code;
     private String codeMsg;
