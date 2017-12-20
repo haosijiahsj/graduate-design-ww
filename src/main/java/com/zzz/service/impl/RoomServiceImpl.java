@@ -66,7 +66,7 @@ public class RoomServiceImpl implements RoomService {
 
         Page<RoomPo> roomPoPage = roomRepository.findByStatus(status, pageable);
 
-        return this.convertPage(roomPoPage);
+        return PageResult.convert(roomPoPage, RoomVo.class);
     }
 
     @Override
