@@ -17,7 +17,6 @@ import javax.sql.DataSource;
  */
 @Slf4j
 @Configuration
-@ConfigurationProperties(prefix = "spring.datasource")
 public class DruidConfig {
 
     private static final String DRUID_URL = "/druid/*";
