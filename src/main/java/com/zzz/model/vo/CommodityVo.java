@@ -19,5 +19,6 @@ public class CommodityVo implements Serializable {
     private Integer id;
     private String commodityName;
     private BigDecimal price;
+    private Boolean status;
 
 }

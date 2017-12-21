@@ -23,4 +23,6 @@ public interface CommodityRepository extends Repository<CommodityPo, Integer> {
     @Modifying
     @Query(value="update CommodityPo c set c.commodityName = ?2 , c.price = ?3 where c.id = ?1")
     void update(Integer id, String commodityName, BigDecimal price);
+
+    List<CommodityPo> findById(Integer id);
 }

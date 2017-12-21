@@ -7,10 +7,7 @@ import com.zzz.dao.*;
 import com.zzz.enums.RoomStatus;
 import com.zzz.enums.RoomType;
 import com.zzz.model.po.*;
-import com.zzz.model.vo.CommodityBookVo;
-import com.zzz.model.vo.ConsumerVo;
-import com.zzz.model.vo.RoomBookVo;
-import com.zzz.model.vo.RoomVo;
+import com.zzz.model.vo.*;
 import com.zzz.service.RoomService;
 import com.zzz.support.PageResult;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +31,9 @@ import java.util.stream.Stream;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RoomServiceImpl implements RoomService {
+
+    private static final long ONE_DAY_MILLISECONDS = 24 * 60 * 60 * 1000;
+    private static final int SCALE = 1;
 
     @Autowired
     private RoomRepository roomRepository;
@@ -197,6 +197,32 @@ public class RoomServiceImpl implements RoomService {
                     return roomBookVo;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PrintInfoVo printBill(Integer consumer, Integer roomBook) {
+        Preconditions.checkNotNull(consumer, "入参consumer不能为空！");
+        Preconditions.checkNotNull(roomBook, "入参roomBook不能为空！");
+
+        ConsumerPo consumerPo = consumerRepository.getById(consumer);
+        RoomBookPo roomBookPo = roomBookRepository.getById(roomBook);
+        RoomPo roomPo = roomRepository.getById(roomBookPo.getRoom());
+
+        BigDecimal totalAmount = roomBookPo.getSettlementPrice()
+                .add(roomBookPo.getDeposit())
+                .subtract(roomBookPo.getSettlementPrice());
+        BigDecimal daysFor = BigDecimal.valueOf(roomBookPo.getEndTime().getTime() - roomBookPo.getBeginTime().getTime())
+                .divide(BigDecimal.valueOf(ONE_DAY_MILLISECONDS), SCALE, BigDecimal.ROUND_HALF_EVEN);
+
+        return PrintInfoVo.builder()
+                .consumerName(consumerPo.getName())
+                .beginTime(roomBookPo.getBeginTime())
+                .endTime(roomBookPo.getEndTime())
+                .roomPrice(roomBookPo.getRoomPrice().multiply(daysFor))
+                .roomNum(roomPo.getRoomNum())
+                .days(daysFor)
+                .totalAmount(totalAmount)
+                .build();
     }
 
     /**

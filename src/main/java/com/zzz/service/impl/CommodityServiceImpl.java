@@ -5,9 +5,12 @@ import com.zzz.dao.CommodityBookRepository;
 import com.zzz.dao.CommodityRepository;
 import com.zzz.model.po.CommodityBookPo;
 import com.zzz.model.po.CommodityPo;
+import com.zzz.model.po.RoomBookPo;
 import com.zzz.model.vo.CommodityBookVo;
 import com.zzz.model.vo.CommodityVo;
 import com.zzz.service.CommodityService;
+import com.zzz.utils.ConvertUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Created by  on 12/3 0003.
  */
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CommodityServiceImpl implements CommodityService {
@@ -59,6 +63,7 @@ public class CommodityServiceImpl implements CommodityService {
 			return Collections.emptyList();
 		}
 		return commodityPos.stream()
+				.filter(commodityPo -> !commodityPo.getStatus())
 				.map(commodityPo -> {
 					CommodityVo commodityVo=new CommodityVo();
 					BeanUtils.copyProperties(commodityPo, commodityVo);
@@ -80,6 +85,26 @@ public class CommodityServiceImpl implements CommodityService {
 	public void update(CommodityVo commodity) {
 		Preconditions.checkNotNull(commodity, "入参employeeVo不能为空！");
 		commodityRepository.update(commodity.getId(), commodity.getCommodityName(), commodity.getPrice());
+	}
+
+	@Override
+	public List<CommodityBookVo> findByRoomBook(Integer roomBook) {
+    	Preconditions.checkNotNull(roomBook, "入参roomBook不能为空！");
+
+    	List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(roomBook);
+    	if (CollectionUtils.isEmpty(commodityBookPos)) {
+    		log.info("通过：{}没有查询到商品订单信息！", roomBook);
+		}
+
+		List<CommodityBookVo> commodityBookVos = ConvertUtils.convertPos2Vos(commodityBookPos, CommodityBookVo.class);
+		return commodityBookVos.stream()
+				.map(commodityBookVo -> {
+					CommodityVo commodityVo = new CommodityVo();
+					BeanUtils.copyProperties(commodityRepository.getById(commodityBookVo.getCommodity()), commodityVo);
+					commodityBookVo.setCommodityVo(commodityVo);
+					return commodityBookVo;
+				})
+				.collect(Collectors.toList());
 	}
 
 }

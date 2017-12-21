@@ -12,6 +12,7 @@ import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
 import com.zzz.model.vo.RoomVo;
 import com.zzz.service.ConsumerService;
+import com.zzz.utils.ConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -99,7 +100,9 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     @Override
     public List<ConsumerVo> findConsumers(ConsumerVo consumerVo) {
-        Preconditions.checkNotNull(consumerVo, "入参consumerVo不嫩为空！");
+        if (consumerVo == null) {
+            return ConvertUtils.convertPos2Vos(consumerRepository.findAll(), ConsumerVo.class);
+        }
 
         Specification<ConsumerPo> specification = (root, query, cb) -> {
             List<Predicate> predicates = Lists.newArrayList();

@@ -24,4 +24,7 @@ public class CommodityPo {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "status_")
+    private Boolean status;
+
 }

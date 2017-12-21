@@ -18,6 +18,8 @@ import java.util.List;
  */
 public interface RoomRepository extends Repository<RoomPo, Integer> {
 
+    RoomPo getById(Integer id);
+
     Page<RoomPo> findAll(Pageable pageable);
 
     Page<RoomPo> findByStatus(RoomStatus status, Pageable pageable);

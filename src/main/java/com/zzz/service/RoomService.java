@@ -1,10 +1,7 @@
 package com.zzz.service;
 
 import com.zzz.enums.RoomStatus;
-import com.zzz.model.vo.CommodityBookVo;
-import com.zzz.model.vo.ConsumerVo;
-import com.zzz.model.vo.RoomBookVo;
-import com.zzz.model.vo.RoomVo;
+import com.zzz.model.vo.*;
 import com.zzz.support.PageResult;
 import org.springframework.data.domain.Pageable;
 
@@ -67,5 +64,13 @@ public interface RoomService {
      * @return
      */
     List<RoomBookVo> findRoomBookByConsumer(Integer consumer);
+
+    /**
+     * 打印账单
+     * @param consumer
+     * @param roomBook
+     * @return
+     */
+    PrintInfoVo printBill(Integer consumer, Integer roomBook);
 
 }

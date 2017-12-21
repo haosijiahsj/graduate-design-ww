@@ -25,4 +25,6 @@ public interface CommodityService {
     void save(CommodityVo commodity);
     
     void update(CommodityVo commodity);
+
+    List<CommodityBookVo> findByRoomBook(Integer roomBook);
 }

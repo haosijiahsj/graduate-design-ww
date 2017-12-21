@@ -33,7 +33,6 @@ public class ConsumerController {
         if (StringUtils.isBlank(json)) {
             return ResponseEntity.failedRequestIllegalParam();
         }
-
         try {
             ConsumerVo consumerVo = JSONObject.parseObject(json, ConsumerVo.class);
             return ResponseEntity.successRequest(consumerService.findConsumers(consumerVo));
@@ -47,7 +46,6 @@ public class ConsumerController {
         if (consumer == null) {
             return ResponseEntity.failedRequestIllegalParam();
         }
-
         try {
             return ResponseEntity.successRequest(roomService.findRoomBookByConsumer(consumer));
         } catch (Exception e) {
