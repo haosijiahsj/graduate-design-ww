@@ -10,20 +10,22 @@ import org.apache.commons.cli.*;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OptionsUtils {
+public class CommandLineUtils {
 
     public static Integer processCliArgsForPort(String[] args) {
         Options options = new Options();
-        Option portOption = Option.builder("p")
-                .longOpt("port")
-                .type(Integer.class)
-                .hasArg(false)
-                .build();
-        options.addOption(portOption);
+        Option helpOption = Option.builder("h").longOpt("help").hasArg(false).desc("显示本帮助").build();
+        Option portOption = Option.builder("p").longOpt("port").hasArg(true).desc("端口号").build();
 
-        CommandLineParser parser = new DefaultParser();
+        options.addOption(helpOption).addOption(portOption);
+
+        CommandLineParser commandLineParser = new DefaultParser();
         try {
-            CommandLine commandLine = parser.parse(options, args);
+            CommandLine commandLine = commandLineParser.parse(options, args);
+            if (commandLine.hasOption(helpOption.getOpt())) {
+                new HelpFormatter().printHelp("java -jar graduate-design-1.0-RELEASE.jar", options);
+                System.exit(0);
+            }
             if (!commandLine.hasOption(portOption.getOpt())) {
                 log.info("no command -p or --port input ! use default port");
                 return null;
@@ -32,7 +34,7 @@ public class OptionsUtils {
             String portStr = commandLine.getOptionValue(portOption.getOpt());
             return Integer.parseInt(portStr);
         } catch (ParseException | NumberFormatException e) {
-            log.info("parse args error ! cause: {}", e.getMessage());
+            log.info("parse args error, use default port ! cause: {}", e.getMessage());
             return null;
         }
     }

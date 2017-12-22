@@ -1,9 +1,8 @@
 package com.zzz;
 
-import com.zzz.utils.OptionsUtils;
+import com.zzz.utils.CommandLineUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.Banner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -35,7 +34,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
     }
 
     public static void main(String[] args) {
-        port = OptionsUtils.processCliArgsForPort(args);
+        port = CommandLineUtils.processCliArgsForPort(args);
 
         new SpringApplicationBuilder()
                 .sources(Application.class)
