@@ -36,7 +36,7 @@ public class PushServiceImpl implements PushService {
 
         mailSender.send(message);
 
-        log.info("邮件发送成功！");
+        log.info("邮件发送成功！标题：{}，内容：{}", mailVo.getSubject(), mailVo.getText());
     }
 
 }
