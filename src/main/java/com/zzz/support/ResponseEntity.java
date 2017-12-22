@@ -46,6 +46,14 @@ public class ResponseEntity implements Serializable {
     }
 
     /**
+     * 请求成功，无结果返回（保存，更新，或者调用没有返回值的方法）
+     * @return
+     */
+    public static ResponseEntity successRequest() {
+        return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    /**
      * 请求成功，（查询无结果）
      * @return
      */

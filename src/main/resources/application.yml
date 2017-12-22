@@ -30,3 +30,14 @@ spring:
             dialect: org.hibernate.dialect.MySQL5Dialect
     hibernate:
       ddl-auto: update
+  mail:
+    host: smtp.qq.com
+    username: 1017547773@qq.com
+    password: xskkayunmzcdbfhe
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true

@@ -10,6 +10,7 @@ import com.zzz.model.po.*;
 import com.zzz.model.vo.*;
 import com.zzz.service.RoomService;
 import com.zzz.support.PageResult;
+import com.zzz.utils.ConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -66,7 +67,7 @@ public class RoomServiceImpl implements RoomService {
 
         Page<RoomPo> roomPoPage = roomRepository.findByStatus(status, pageable);
 
-        return PageResult.convert(roomPoPage, RoomVo.class);
+        return ConvertUtils.convertPage(roomPoPage, RoomVo.class);
     }
 
     @Override
