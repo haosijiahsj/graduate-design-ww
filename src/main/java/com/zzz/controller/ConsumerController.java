@@ -30,11 +30,11 @@ public class ConsumerController {
 
     @GetMapping("/findConsumer")
     public ResponseEntity findConsumer(String json) {
-        if (StringUtils.isBlank(json)) {
-            return ResponseEntity.failedRequestIllegalParam();
-        }
         try {
-            ConsumerVo consumerVo = JSONObject.parseObject(json, ConsumerVo.class);
+            ConsumerVo consumerVo = null;
+            if (StringUtils.isNotEmpty(json)) {
+                consumerVo = JSONObject.parseObject(json, ConsumerVo.class);
+            }
             return ResponseEntity.successRequest(consumerService.findConsumers(consumerVo));
         } catch (Exception e) {
             return ResponseEntity.failedRequest(e.getMessage());

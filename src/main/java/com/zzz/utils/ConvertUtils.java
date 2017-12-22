@@ -13,8 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by on 12/20 0020.
+ * 转换工具类
  */
+@SuppressWarnings("unchecked")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConvertUtils {
 

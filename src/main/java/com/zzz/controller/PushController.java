@@ -26,7 +26,7 @@ public class PushController {
     public ResponseEntity sendSimpleEmail() {
         MailVo mailVo = MailVo.builder()
                 .from("1017547773@qq.com")
-                .to(Lists.newArrayList("1017547773@qq.com"))
+                .to(Lists.newArrayList("18408243831@qq.com"))
                 .sentDate(new Date())
                 .subject("测试发送邮件")
                 .text("发送的内容")

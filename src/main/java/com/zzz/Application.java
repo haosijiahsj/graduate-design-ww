@@ -12,12 +12,7 @@ import org.springframework.context.annotation.ImportResource;
 
 /**
  * app入口，启动端口在yml中指定
- * //@Configuration
- * //@EntityScan("com.zzz.model.po")
- * //@EnableJpaRepositories("com.zzz.dao")
- * //@EnableTransactionManagement
- * //@EnableAutoConfiguration
- * //@ImportResource("classpath:config/applicationContext.xml")
+ * 打包jar后启动可以使用 -p 8089 或者 --port 8089 来指定启动端口
  */
 @Slf4j
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
@@ -29,6 +24,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
     @Override
     public void customize(ConfigurableEmbeddedServletContainer container) {
         if (port != null) {
+            log.info("use user defined port: [{}]", port);
             container.setPort(port);
         }
     }

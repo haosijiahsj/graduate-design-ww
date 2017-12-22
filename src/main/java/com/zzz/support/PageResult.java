@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 要加入getter，setter才能正确的被转换为json
- * @author
- * @date 2017/11/2
+ * 分页结果类
  */
 @Builder
 @Getter

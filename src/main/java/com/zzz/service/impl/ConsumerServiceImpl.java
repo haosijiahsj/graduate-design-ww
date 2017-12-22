@@ -107,7 +107,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         Specification<ConsumerPo> specification = (root, query, cb) -> {
             List<Predicate> predicates = Lists.newArrayList();
             if (consumerVo.getIdNum() != null) {
-                predicates.add(cb.equal(root.get("idNum"), consumerVo.getIdNum()));
+                predicates.add(cb.equal(root.get("idNum"), "%" + consumerVo.getIdNum() + "%"));
             }
             if (consumerVo.getName() != null) {
                 predicates.add(cb.like(root.get("name"), "%" + consumerVo.getName() + "%"));

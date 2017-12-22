@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by  on 12/2 0002.
+ * Created by on 12/2 0002.
  */
 @Data
 public class BookRoomForm {

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 
 /**
- * Created by on 2017/12/22.
+ * 命令行工具类，使用command-cli工具解析控制台参数，可以在启动时指定端口号
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

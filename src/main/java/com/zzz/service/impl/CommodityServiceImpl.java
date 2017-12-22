@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CommodityServiceImpl implements CommodityService {
-	@Autowired
+    @Autowired
     private CommodityBookRepository commodityBookRepository;
 
-	@Autowired
-	private CommodityRepository commodityRepository;
+    @Autowired
+    private CommodityRepository commodityRepository;
 
     @Override
     public void saveCommodityBook(List<CommodityBookVo> commodityBookVos) {
@@ -45,66 +45,65 @@ public class CommodityServiceImpl implements CommodityService {
         });
     }
 
-	@Override
-	public CommodityVo getById(Integer id) {
-		CommodityPo commodityPo=commodityRepository.getById(id);
-		if(commodityPo == null){
-			return null;
-		}
-		CommodityVo commodityVo=new CommodityVo();
-		BeanUtils.copyProperties(commodityPo, commodityVo);
-		return commodityVo;
-	}
+    @Override
+    public CommodityVo getById(Integer id) {
+        CommodityPo commodityPo = commodityRepository.getById(id);
+        if (commodityPo == null) {
+            return null;
+        }
+        CommodityVo commodityVo = new CommodityVo();
+        BeanUtils.copyProperties(commodityPo, commodityVo);
+        return commodityVo;
+    }
 
-	@Override
-	public List<CommodityVo> findAll() {
-		List<CommodityPo> commodityPos=commodityRepository.findAll();
-		if(CollectionUtils.isEmpty(commodityPos)){
-			return Collections.emptyList();
-		}
-		return commodityPos.stream()
-				.filter(commodityPo -> !commodityPo.getStatus())
-				.map(commodityPo -> {
-					CommodityVo commodityVo=new CommodityVo();
-					BeanUtils.copyProperties(commodityPo, commodityVo);
-					return commodityVo;
-				})
-				.collect(Collectors.toList());
-		
-	}
+    @Override
+    public List<CommodityVo> findAll() {
+        List<CommodityPo> commodityPos = commodityRepository.findAll();
+        if (CollectionUtils.isEmpty(commodityPos)) {
+            return Collections.emptyList();
+        }
+        return commodityPos.stream()
+                .map(commodityPo -> {
+                    CommodityVo commodityVo = new CommodityVo();
+                    BeanUtils.copyProperties(commodityPo, commodityVo);
+                    return commodityVo;
+                })
+                .collect(Collectors.toList());
 
-	@Override
-	public void save(CommodityVo commodity) {
-		Preconditions.checkNotNull(commodity, "入参employeeVo不能为空！");
-		CommodityPo commodityPo=new CommodityPo();
-		BeanUtils.copyProperties(commodity, commodityPo);
-		commodityRepository.save(commodityPo);
-	}
+    }
 
-	@Override
-	public void update(CommodityVo commodity) {
-		Preconditions.checkNotNull(commodity, "入参employeeVo不能为空！");
-		commodityRepository.update(commodity.getId(), commodity.getCommodityName(), commodity.getPrice());
-	}
+    @Override
+    public void save(CommodityVo commodity) {
+        Preconditions.checkNotNull(commodity, "入参employeeVo不能为空！");
+        CommodityPo commodityPo = new CommodityPo();
+        BeanUtils.copyProperties(commodity, commodityPo);
+        commodityRepository.save(commodityPo);
+    }
 
-	@Override
-	public List<CommodityBookVo> findByRoomBook(Integer roomBook) {
-    	Preconditions.checkNotNull(roomBook, "入参roomBook不能为空！");
+    @Override
+    public void update(CommodityVo commodity) {
+        Preconditions.checkNotNull(commodity, "入参employeeVo不能为空！");
+        commodityRepository.update(commodity.getId(), commodity.getCommodityName(), commodity.getPrice(), commodity.getStatus());
+    }
 
-    	List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(roomBook);
-    	if (CollectionUtils.isEmpty(commodityBookPos)) {
-    		log.info("通过：{}没有查询到商品订单信息！", roomBook);
-		}
+    @Override
+    public List<CommodityBookVo> findByRoomBook(Integer roomBook) {
+        Preconditions.checkNotNull(roomBook, "入参roomBook不能为空！");
 
-		List<CommodityBookVo> commodityBookVos = ConvertUtils.convertPos2Vos(commodityBookPos, CommodityBookVo.class);
-		return commodityBookVos.stream()
-				.map(commodityBookVo -> {
-					CommodityVo commodityVo = new CommodityVo();
-					BeanUtils.copyProperties(commodityRepository.getById(commodityBookVo.getCommodity()), commodityVo);
-					commodityBookVo.setCommodityVo(commodityVo);
-					return commodityBookVo;
-				})
-				.collect(Collectors.toList());
-	}
+        List<CommodityBookPo> commodityBookPos = commodityBookRepository.findByRoomBook(roomBook);
+        if (CollectionUtils.isEmpty(commodityBookPos)) {
+            log.info("通过：{}没有查询到商品订单信息！", roomBook);
+        }
+
+        List<CommodityBookVo> commodityBookVos = ConvertUtils.convertPos2Vos(commodityBookPos, CommodityBookVo.class);
+        return commodityBookVos.stream()
+                .map(commodityBookVo -> {
+                    CommodityVo commodityVo = new CommodityVo();
+                    BeanUtils.copyProperties(commodityRepository.getById(commodityBookVo.getCommodity()), commodityVo);
+                    commodityBookVo.setCommodityVo(commodityVo);
+                    return commodityBookVo;
+                })
+                .collect(Collectors.toList());
+    }
 
 }

@@ -105,14 +105,22 @@ public class RoomServiceImpl implements RoomService {
         Preconditions.checkNotNull(roomBookVo, "入参rookBookVo不能为空！");
         Preconditions.checkNotNull(consumerVo, "入参consumerVo不能为空！");
 
-        ConsumerPo consumerPo = new ConsumerPo();
         RoomBookPo roomBookPo = new RoomBookPo();
-        BeanUtils.copyProperties(consumerVo, consumerPo);
         BeanUtils.copyProperties(roomBookVo, roomBookPo);
 
-        consumerRepository.save(consumerPo);
+        ConsumerPo consumerPo = consumerRepository.getByIdNum(consumerVo.getIdNum());
+        // 先查询该客户是否存在，存在则更新信息，否则保存该客户
+        if (consumerPo == null) {
+            consumerPo = new ConsumerPo();
+            BeanUtils.copyProperties(consumerVo, consumerPo);
+            consumerRepository.save(consumerPo);
+        } else {
+            consumerRepository.update(consumerPo.getId(), consumerVo.getIdNum(), consumerVo.getName(), consumerVo.getSex(),
+                    consumerVo.getTel());
+        }
 
         roomBookPo.setConsumer(consumerPo.getId());
+        roomBookPo.setStatus(false);
         roomBookRepository.save(roomBookPo);
 
         roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookPo.getRoom());

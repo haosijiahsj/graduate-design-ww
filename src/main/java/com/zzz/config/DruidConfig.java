@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- * Created by 胡胜钧 on 12/16 0016.
+ * druid连接池配置
  */
 @Slf4j
 @Configuration
