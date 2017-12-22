@@ -1,6 +1,8 @@
 package com.zzz.utils;
 
 import com.zzz.support.PageResult;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -11,8 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by 胡胜钧 on 12/20 0020.
+ * Created by on 12/20 0020.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConvertUtils {
 
     /**

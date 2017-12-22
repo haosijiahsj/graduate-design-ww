@@ -30,7 +30,7 @@ public class DruidConfig {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource druidDataSource() {
-        log.info("初始化druid连接池！");
+        log.info("init druid data source !");
         return new DruidDataSource();
     }
 
