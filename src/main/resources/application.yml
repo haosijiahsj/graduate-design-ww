@@ -43,4 +43,4 @@ spring:
             required: true
   devtools:
     restart:
-      additional-paths: src/main/java/com/zzz
+      additional-paths: src

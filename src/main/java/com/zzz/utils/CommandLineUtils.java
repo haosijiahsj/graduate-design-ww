@@ -6,12 +6,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 
 /**
- * 命令行工具类，使用command-cli工具解析控制台参数，可以在启动时指定端口号
+ * 命令行工具类，使用commons-cli工具解析控制台参数，可以在启动时指定端口号
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommandLineUtils {
 
+    /**
+     * 解析控制台输入的端口号
+     * @param args
+     * @return
+     */
     public static Integer processCliArgsForPort(String[] args) {
         Options options = new Options();
         Option helpOption = Option.builder("h").longOpt("help").hasArg(false).desc("显示本帮助").build();

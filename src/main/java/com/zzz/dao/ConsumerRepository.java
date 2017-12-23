@@ -9,7 +9,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 /**
- * Created by  on 12/2 0002.
+ * Created by on 12/2 0002.
  */
 public interface ConsumerRepository extends Repository<ConsumerPo, Integer>, JpaSpecificationExecutor<ConsumerPo> {
 
@@ -20,6 +20,8 @@ public interface ConsumerRepository extends Repository<ConsumerPo, Integer>, Jpa
     ConsumerPo getByIdNum(String idNum);
 
     List<ConsumerPo> findAll();
+
+    List<ConsumerPo> findByIdIn(List<Integer> ids);
 
     @Modifying
     @Query("UPDATE ConsumerPo c SET c.idNum = ?2, c.name = ?3, c.sex = ?4, c.tel = ?5 WHERE c.id = ?1")

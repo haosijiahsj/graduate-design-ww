@@ -99,27 +99,50 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     @Override
+    public List<ConsumerVo> findAllNoSettle() {
+        List<ConsumerPo> consumerPos = consumerRepository.findAll();
+        List<ConsumerVo> consumerVos = ConvertUtils.convertPos2Vos(consumerPos, ConsumerVo.class);
+
+        List<ConsumerVo> finalConsumerVos = Lists.newArrayList();
+        for (ConsumerVo consumerVo : consumerVos) {
+            List<RoomBookPo> roomBookPos = roomBookRepository.findByConsumerAndStatus(consumerVo.getId(), false);
+            if (CollectionUtils.isNotEmpty(roomBookPos)) {
+                List<RoomBookVo> roomBookVos = ConvertUtils.convertPos2Vos(roomBookPos, RoomBookVo.class);
+                for (RoomBookVo roomBookVo : roomBookVos) {
+                    RoomPo roomPo = roomRepository.getById(roomBookVo.getRoom());
+                    RoomVo roomVo = new RoomVo();
+                    BeanUtils.copyProperties(roomPo, roomVo);
+                    roomBookVo.setRoomVo(roomVo);
+                }
+                consumerVo.setRoomBookVos(roomBookVos);
+                finalConsumerVos.add(consumerVo);
+            }
+        }
+        return finalConsumerVos;
+    }
+
+    @Override
     public List<ConsumerVo> findConsumers(ConsumerVo consumerVo) {
         if (consumerVo == null) {
             return ConvertUtils.convertPos2Vos(consumerRepository.findAll(), ConsumerVo.class);
         }
 
-        Specification<ConsumerPo> specification = (root, query, cb) -> {
+        Specification<ConsumerPo> specification = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = Lists.newArrayList();
             if (consumerVo.getIdNum() != null) {
-                predicates.add(cb.equal(root.get("idNum"), "%" + consumerVo.getIdNum() + "%"));
+                predicates.add(criteriaBuilder.like(root.get("idNum"), "%" + consumerVo.getIdNum() + "%"));
             }
             if (consumerVo.getName() != null) {
-                predicates.add(cb.like(root.get("name"), "%" + consumerVo.getName() + "%"));
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + consumerVo.getName() + "%"));
             }
             if (consumerVo.getSex() != null) {
-                predicates.add(cb.equal(root.get("sex"), consumerVo.getSex()));
+                predicates.add(criteriaBuilder.equal(root.get("sex"), consumerVo.getSex()));
             }
             if (consumerVo.getTel() != null) {
-                predicates.add(cb.equal(root.get("tel"), consumerVo.getTel()));
+                predicates.add(criteriaBuilder.equal(root.get("tel"), consumerVo.getTel()));
             }
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
 
         return consumerRepository.findAll(specification).stream()

@@ -40,7 +40,7 @@ public class UserController {
 
         session.setAttribute("user", userVo);
 
-        return new ResponseEntity(ResponseStatus.SUCCESS, userVo);
+        return ResponseEntity.successRequest();
     }
 
     /**

@@ -3,6 +3,7 @@ package com.zzz.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zzz.model.vo.ConsumerVo;
 import com.zzz.model.vo.RoomBookVo;
+import com.zzz.service.CommodityService;
 import com.zzz.service.ConsumerService;
 import com.zzz.service.RoomService;
 import com.zzz.support.ResponseEntity;
@@ -28,6 +29,9 @@ public class ConsumerController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private CommodityService commodityService;
+
     @GetMapping("/findConsumer")
     public ResponseEntity findConsumer(String json) {
         try {
@@ -42,12 +46,24 @@ public class ConsumerController {
     }
 
     @GetMapping("/findConsumerRoomBook")
-    public ResponseEntity findConsumerRoomBook(Integer consumer) {
-        if (consumer == null) {
+    public ResponseEntity findConsumerRoomBook(Integer id) {
+        if (id == null) {
             return ResponseEntity.failedRequestIllegalParam();
         }
         try {
-            return ResponseEntity.successRequest(roomService.findRoomBookByConsumer(consumer));
+            return ResponseEntity.successRequest(roomService.findRoomBookByConsumer(id));
+        } catch (Exception e) {
+            return ResponseEntity.failedRequest(e.getMessage());
+        }
+    }
+
+    @GetMapping("/findByRoomBook")
+    public ResponseEntity findByRoomBook(Integer id) {
+        if (id == null) {
+            return ResponseEntity.failedRequestIllegalParam();
+        }
+        try {
+            return ResponseEntity.successRequest(commodityService.findByRoomBook(id));
         } catch (Exception e) {
             return ResponseEntity.failedRequest(e.getMessage());
         }

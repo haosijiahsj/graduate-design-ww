@@ -1,5 +1,6 @@
 package com.zzz.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,11 @@ public class PrintInfoVo implements Serializable {
 
     private String consumerName;
     private String roomNum;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date beginTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
     private BigDecimal days;
     private BigDecimal roomPrice;

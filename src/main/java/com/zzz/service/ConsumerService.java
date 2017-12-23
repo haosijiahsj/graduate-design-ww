@@ -5,7 +5,7 @@ import com.zzz.model.vo.ConsumerVo;
 import java.util.List;
 
 /**
- * Created by  on 12/2 0002.
+ * Created by on 12/2 0002.
  */
 public interface ConsumerService {
 
@@ -15,6 +15,12 @@ public interface ConsumerService {
      * @return
      */
     ConsumerVo getConsumerByIdNum(String idNum);
+
+    /**
+     * 查询所有的客户，包含富vo信息
+     * @return
+     */
+    List<ConsumerVo> findAllNoSettle();
 
     /**
      * 动态查询

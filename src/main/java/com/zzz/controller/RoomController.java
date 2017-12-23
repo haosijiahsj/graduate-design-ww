@@ -93,7 +93,7 @@ public class RoomController {
     @GetMapping("/getConsumerRoomBook")
     public ResponseEntity getConsumerRoomBook(String idNum) {
         if (StringUtils.isBlank(idNum)) {
-            return ResponseEntity.builder().msgCode(400).msgContent("身份证号不能为空！").build();
+            return ResponseEntity.successRequest(consumerService.findAllNoSettle());
         }
 
         ConsumerVo consumerVo = consumerService.getConsumerByIdNum(idNum);
@@ -148,6 +148,21 @@ public class RoomController {
         RoomBookVo roomBookVo = JSONObject.parseObject(json, RoomBookVo.class);
         roomService.updateRoomForSettle(roomBookVo);
         return new ResponseEntity(ResponseStatus.SUCCESS);
+    }
+
+    /**
+     * 打印账单
+     * @param consumer
+     * @param roomBook
+     * @return
+     */
+    @PostMapping("/printBill")
+    public ResponseEntity printBill(Integer consumer, Integer roomBook) {
+        try {
+            return ResponseEntity.successRequest(roomService.printBill(consumer, roomBook));
+        } catch (Exception e) {
+            return ResponseEntity.failedRequest(e.getMessage());
+        }
     }
 
 }

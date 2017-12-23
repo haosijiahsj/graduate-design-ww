@@ -217,17 +217,20 @@ public class RoomServiceImpl implements RoomService {
         RoomBookPo roomBookPo = roomBookRepository.getById(roomBook);
         RoomPo roomPo = roomRepository.getById(roomBookPo.getRoom());
 
-        BigDecimal totalAmount = roomBookPo.getSettlementPrice()
-                .add(roomBookPo.getDeposit())
-                .subtract(roomBookPo.getSettlementPrice());
+        roomBookPo.setSettlementPrice(this.settleRoom(roomBook).getSettlementPrice());
+
         BigDecimal daysFor = BigDecimal.valueOf(roomBookPo.getEndTime().getTime() - roomBookPo.getBeginTime().getTime())
                 .divide(BigDecimal.valueOf(ONE_DAY_MILLISECONDS), SCALE, BigDecimal.ROUND_HALF_EVEN);
+
+        BigDecimal roomPrice = roomBookPo.getRoomPrice().multiply(daysFor);
+        BigDecimal totalAmount = roomPrice.add(roomBookPo.getDeposit())
+                .subtract(roomBookPo.getSettlementPrice());
 
         return PrintInfoVo.builder()
                 .consumerName(consumerPo.getName())
                 .beginTime(roomBookPo.getBeginTime())
                 .endTime(roomBookPo.getEndTime())
-                .roomPrice(roomBookPo.getRoomPrice().multiply(daysFor))
+                .roomPrice(roomPrice)
                 .roomNum(roomPo.getRoomNum())
                 .days(daysFor)
                 .totalAmount(totalAmount)

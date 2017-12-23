@@ -1,7 +1,7 @@
 package com.zzz.enums;
 
 /**
- * Created by  on 12/2 0002.
+ * Created by on 12/2 0002.
  */
 public enum RoomStatus {
     CAN_BOOK("CAN_BOOK", "可预订"),
