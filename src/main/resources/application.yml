@@ -24,7 +24,7 @@ spring:
     test-on-return: false
     filters: stat,wall,slf4j
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
           hibernate:
             dialect: org.hibernate.dialect.MySQL5Dialect
