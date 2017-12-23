@@ -168,7 +168,7 @@ public class RoomServiceImpl implements RoomService {
         Preconditions.checkNotNull(roomBookVo, "入参roomBookVo不能为空！");
 
         log.info("更新房间id：{}状态未可预订，房间单id：{}计算价格", roomBookVo.getRoom(), roomBookVo.getId());
-        roomRepository.updateStatusById(RoomStatus.CAN_NOT_BOOK, roomBookVo.getRoom());
+        roomRepository.updateStatusById(RoomStatus.CAN_BOOK, roomBookVo.getRoom());
         roomBookRepository.updateSettlementPrice(roomBookVo.getSettlementPrice(), roomBookVo.getId());
     }
 
