@@ -30,7 +30,7 @@
         <!-- 替换服务器为jetty -->
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-jetty</artifactId>-->
+            <!--<artifactId>spring-boot-starter-undertow</artifactId>-->
         <!--</dependency>-->
         <!-- spring-data-jpa支持包，基于hibernate -->
         <dependency>
