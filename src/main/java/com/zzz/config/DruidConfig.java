@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -19,10 +20,13 @@ import javax.sql.DataSource;
 @Configuration
 public class DruidConfig {
 
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
     private static final String DRUID_URL = "/druid/*";
     private static final String URL_PATTERNS = "/*";
-    private static final String LOGIN_USERNAME = "root";
-    private static final String LOGIN_PASSWORD = "123456";
     private static final String LOG_SLOW_SQL = "true";
     private static final String EXCLUSIONS = "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*";
     private static final String PROFILE_ENABLE = "true";
@@ -39,14 +43,14 @@ public class DruidConfig {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
         reg.addUrlMappings(DRUID_URL);
-        reg.addInitParameter("loginUsername", LOGIN_USERNAME);
-        reg.addInitParameter("loginPassword", LOGIN_PASSWORD);
+        reg.addInitParameter("loginUsername", username);
+        reg.addInitParameter("loginPassword", password);
         reg.addInitParameter("logSlowSql", LOG_SLOW_SQL);
         return reg;
     }
 
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
+    public FilterRegistrationBean druidFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns(URL_PATTERNS);
