@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
-<configuration scan="true" scanPeriod="5 seconds">
+<configuration scan="false" scanPeriod="5 seconds">
 	<include resource="org/springframework/boot/logging/logback/base.xml"/>
 	<property name="log.context.name" value="graduate-design" />
 	<!-- Simple file output -->
@@ -54,4 +54,5 @@
 	<logger name="pedestal" level="ALL" />
 	<logger name="hammock-cafe" level="ALL" />
 	<logger name="user" level="ALL" />
+	<logger name="ch.qos.logback" level="OFF" />
 </configuration>
