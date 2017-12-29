@@ -37,7 +37,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
                 .bannerMode(Banner.Mode.OFF)
                 .run(args);
 
-        log.info("[ graduate-design-ww ] Application Startup Success !");
+        log.info("Application Startup Success !");
     }
 
 }
