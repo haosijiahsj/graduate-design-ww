@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Slf4j
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@ImportResource("classpath:applicationContext.xml")
+@ImportResource("classpath:config/applicationContext.xml")
 public class Application implements EmbeddedServletContainerCustomizer {
 
     private static Integer port;
