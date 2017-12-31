@@ -9,17 +9,20 @@ import com.zzz.support.ResponseEntity;
 import com.zzz.support.ResponseStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 /**
  * Created by  on 2017/9/14.
  */
+@EnableAsync
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -93,6 +96,18 @@ public class UserController {
         ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
         responseEntity.setResult(userService.findAllUser());
         return responseEntity;
+    }
+
+    /**
+     * 异步请求
+     * @return
+     */
+    @RequestMapping("/findAll")
+    public Callable<ResponseEntity> findAll() {
+        return () -> {
+            Thread.sleep(3 * 1000);
+            return ResponseEntity.successRequest(userService.findAllUser());
+        };
     }
 
 }
