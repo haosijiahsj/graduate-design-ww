@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="false" scanPeriod="5 seconds">
 	<include resource="org/springframework/boot/logging/logback/base.xml"/>
 	<property name="log.context.name" value="graduate-design" />
@@ -7,54 +6,48 @@
 	<property name="FILE_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} -%5level [%15.15thread] %-40.40logger{39} : %msg%n" />
 	<!-- Simple file output -->
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
 		<encoder>
 			<!-- 引用的base中定义的 -->
 			<pattern>
 				${FILE_LOG_PATTERN}
 			</pattern>
-			<charset>UTF-8</charset> <!-- 此处设置字符集 -->
+			<charset>UTF-8</charset>
 		</encoder>
 
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<!-- rollover daily 配置日志所生成的目录以及生成文件名的规则 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 日志名 -->
 			<fileNamePattern>../logs/${log.context.name}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<!-- or whenever the file size reaches 64 MB -->
-				<maxFileSize>64MB</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- 每个日志大小 -->
+			<maxFileSize>64MB</maxFileSize>
+			<!-- 保存60天的 -->
+			<maxHistory>60</maxHistory>
+			<totalSizeCap>20GB</totalSizeCap>
 		</rollingPolicy>
 
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ALL</level>
 		</filter>
-		<!-- Safely log to the same file from multiple JVMs. Degrades performance! -->
 		<prudent>true</prudent>
 	</appender>
 
-	<!-- Console output -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
 		<encoder>
 			<pattern>
 				${STDOUT_PATTERN}
 			</pattern>
-			<charset>UTF-8</charset> <!-- 此处设置字符集 -->
+			<charset>UTF-8</charset>
 		</encoder>
-		<!-- Only log level WARN and above -->
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>WARN</level>
 		</filter>
 	</appender>
 
-	<!-- Enable FILE and STDOUT appenders for all log messages. By default, only log at level INFO and above. -->
 	<root level="INFO">
 		<appender-ref ref="FILE" />
 		<!--<appender-ref ref="STDOUT" />-->
 		<appender-ref ref="CONSOLE" />
 	</root>
 
-	<!-- For loggers in the these namespaces, log at all levels. -->
 	<logger name="pedestal" level="ALL" />
 	<logger name="hammock-cafe" level="ALL" />
 	<logger name="user" level="ALL" />
