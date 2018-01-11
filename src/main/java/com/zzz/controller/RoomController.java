@@ -51,7 +51,7 @@ public class RoomController {
     public ResponseEntity findAllCanBookRoom(Integer page, Integer size) {
         page = page == null ? 1 : page;
         size = size == null ? 20 : size;
-        Pageable pageable = new PageRequest(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         ResponseEntity responseEntity = new ResponseEntity(ResponseStatus.SUCCESS);
         responseEntity.setResult(roomService.findAllRoomByStatus(RoomStatus.CAN_BOOK, pageable));
